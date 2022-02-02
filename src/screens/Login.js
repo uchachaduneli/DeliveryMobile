@@ -12,6 +12,9 @@ import {
   Alert,
 } from "react-native";
 import Screen from "./Screen";
+import axios from "axios";
+import jwt_decode from "jwt-decode";
+import postDataUsingSimplePostCall from "../api/auth";
 
 let width = Dimensions.get("window").width;
 
@@ -19,117 +22,28 @@ const LogInScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const [err, setError] = useState(false);
-  const [emailErr, setEmailErr] = useState(false);
-  const [passwordErr, setPasswordErr] = useState(false);
-  const [loading, setLoading] = useState(false);
-
-  // const signIn = async (username, password) => {
-  //   try {
-  //     const { user } = await api().signInWithEmailAndPassword(
-  //       username,
-  //       password
-  //     );
-  //     if (user) {
-  //       return true;
-  //     }
-  //   } catch (err) {
-  //     console.log("catch err", err);
-  //     return false;
-  //   }
+  // const postDataUsingSimplePostCall = () => {
+  //   axios
+  //     .post(
+  //       "http://ec2-16-170-252-161.eu-north-1.compute.amazonaws.com:8080/auth/login",
+  //       {
+  //         username: "a",
+  //         password: "a",
+  //       }
+  //     )
+  //     .then(function (response) {
+  //       // handle success
+  //       const token = JSON.stringify(response.data);
+  //       alert(token);
+  //       console.log("token - ", token);
+  //       var decoded = jwt_decode(token);
+  //       console.log(decoded);
+  //     })
+  //     .catch(function (error) {
+  //       // handle error
+  //       alert(error.message);
+  //     });
   // };
-  //
-  // const SignIn = async () => {
-  //   if (!email) {
-  //     setEmailErr(true);
-  //   }
-  //   if (!password) {
-  //     setPasswordErr(true);
-  //   }
-  //   if (emailErr || passwordErr || !email || !password) {
-  //     return;
-  //   }
-  //   try {
-  //     setLoading(true);
-  //     let isSuccess = await signIn(email, password);
-  //     setError(!isSuccess);
-  //     setLoading(false);
-  //   } catch (error) {
-  //     console.log("sign in error", error);
-  //     // console.log("login failed");
-  //     setError(true);
-  //     setLoading(false);
-  //   }
-  // };
-  const [message, setMessage] = useState();
-
-  const signIn = () => {
-    if (email !== "" && password !== "") {
-      try {
-        const res = fetch(
-          "http://188.169.174.66:8080/auth/login",
-          // "http://ec2-16-170-252-161.eu-north-1.compute.amazonaws.com:8080/auth/login",
-          {
-            method: "POST",
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              email: "email",
-              password: "password",
-            }),
-          }
-        );
-        console.log(JSON.stringify(res)); //json();
-      } catch (error) {
-        console.error(error);
-      }
-
-      // await fetch(
-      //   "http://ec2-16-170-252-161.eu-north-1.compute.amazonaws.com:8080/auth/login",
-      //   {
-      //     method: "POST",
-      //     headers: {
-      //       Accept: "application/json",
-      //       "Content-Type": "application/json",
-      //     },
-      //     body: JSON.stringify({
-      //       email: "email",
-      //       password: "password",
-      //     }),
-      //   }
-      // )
-      //   .then((response) => console.log(response.text()))
-      //   //response.json() .then((jsonObj) => {
-      //   //   return jsonObj.token;
-      //   // })
-      //   .catch((error) => {
-      //     console.error(error);
-      //   });
-      // await fetch(
-      //   "http://ec2-16-170-252-161.eu-north-1.compute.amazonaws.com:8080/auth/login",
-      //   {
-      //     method: "POST",
-      //     headers: {
-      //       Assept: "application/json",
-      //       "Content-type": "application/json",
-      //     },
-      //     body: JSON.stringify({
-      //       email: email,
-      //       password: password,
-      //     }),
-      //   }
-      // )
-      //     .then(
-      //   (res) => console.log(res.data),
-      //   res.json().then((resData) => {
-      //     console.log("resData.token");
-      //     // setMessage(resData.message);
-      //   })
-      // );
-    }
-  };
 
   return (
     <Screen>
@@ -176,7 +90,7 @@ const LogInScreen = ({ navigation }) => {
           <TouchableOpacity
             style={styles.loginBtn}
             onPressIn={() => {
-              signIn();
+              postDataUsingSimplePostCall();
             }}
           >
             <Text style={styles.loginText}>
@@ -190,7 +104,10 @@ const LogInScreen = ({ navigation }) => {
             </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={{ marginTop: 30 }}>
+          <TouchableOpacity
+            style={{ marginTop: 30 }}
+            onPress={() => navigation.navigate("HomeScreen")}
+          >
             <Text style={styles.forgot_button}>Forgot Password?</Text>
           </TouchableOpacity>
         </View>

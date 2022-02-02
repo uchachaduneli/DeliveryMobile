@@ -1,158 +1,41 @@
 import React, { useState, useReducer, useCallback } from "react";
-import {
-  ScrollView,
-  View,
-  KeyboardAvoidingView,
-  StyleSheet,
-  Button,
-  TextInput,
-} from "react-native";
-import * as authActions from "../store/actions/auth";
-import { useDispatch } from "react-redux";
 
-const FORM_INPUT_UPDATE = "FORM_INPUT_UPDATE";
+import axios from "axios";
+import jwt_decode from "jwt-decode";
+import HomeScreen from "../screens/HomeScreen";
+// import { AsyncStorage } from "@react-native-async-storage/async-storage";
+// import SyncStorage from "sync-storage";
 
-const formReducer = (state, action) => {
-  if (action.type === FORM_INPUT_UPDATE) {
-    const updatedValues = {
-      ...state.inputValues,
-      [action.input]: action.value,
-    };
-    const updatedValidities = {
-      ...state.inputValidities,
-      [action.input]: action.isValid,
-    };
-    let updatedFormIsValid = true;
-    for (const key in updatedValidities) {
-      updatedFormIsValid = updatedFormIsValid && updatedValidities[key];
-    }
-    return {
-      formIsValid: updatedFormIsValid,
-      inputValidities: updatedValidities,
-      inputValues: updatedValues,
-    };
-  }
-  return state;
+const postDataUsingSimplePostCall = () => {
+  axios
+    .post(
+      "http://ec2-16-170-252-161.eu-north-1.compute.amazonaws.com:8080/auth/login",
+      {
+        username: "a",
+        password: "a",
+      }
+    )
+    .then(function (response) {
+      const token = JSON.stringify(response.data);
+      // alert(token);
+      console.log("token - ", token);
+      const decoded = jwt_decode(token);
+      console.log(decoded);
+      // onsubmit = async () => {
+      //   try {
+      //     await AsyncStorage.setItem("token", "decoded");
+      //   } catch (e) {
+      //     console.log(e);
+      //   }
+      // };
+      {
+        // AsyncStorage.setItem("@token", JSON.stringify({ token }));
+      }
+    })
+    .catch(function (error) {
+      alert(error.message);
+    });
+  // navigation.navigate("HomeScreen");
 };
 
-const AuthScreen = (props) => {
-  const [isSignup, setIsSignup] = useState(false);
-  const dispatch = useDispatch();
-
-  const [formState, dispatchFormState] = useReducer(formReducer, {
-    inputValues: {
-      email: "",
-      password: "",
-    },
-    inputValidities: {
-      email: false,
-      password: false,
-    },
-    formIsValid: false,
-  });
-
-  const authHandler = () => {
-    let action;
-    if (isSignup) {
-      action = authActions.signup(
-        formState.inputValues.email,
-        formState.inputValues.password
-      );
-    } else {
-      action = authActions.login(
-        formState.inputValues.email,
-        formState.inputValues.password
-      );
-    }
-    dispatch(action);
-  };
-
-  const inputChangeHandler = useCallback(
-    (inputIdentifier, inputValue, inputValidity) => {
-      dispatchFormState({
-        type: FORM_INPUT_UPDATE,
-        value: inputValue,
-        isValid: inputValidity,
-        input: inputIdentifier,
-      });
-    },
-    [dispatchFormState]
-  );
-
-  return (
-    <KeyboardAvoidingView
-      behavior="padding"
-      keyboardVerticalOffset={50}
-      style={styles.screen}
-    >
-      {/*<Card style={styles.authContainer}>*/}
-      <ScrollView>
-        <TextInput
-          id="email"
-          label="E-Mail"
-          keyboardType="email-address"
-          required
-          email
-          autoCapitalize="none"
-          errorText="Please enter a valid email address."
-          onInputChange={inputChangeHandler}
-          initialValue=""
-        />
-        <TextInput
-          id="password"
-          label="Password"
-          keyboardType="default"
-          secureTextEntry
-          required
-          minLength={5}
-          autoCapitalize="none"
-          errorText="Please enter a valid password."
-          onInputChange={inputChangeHandler}
-          initialValue=""
-        />
-        <View style={styles.buttonContainer}>
-          <Button
-            title={isSignup ? "Sign Up" : "Login"}
-            onPress={authHandler}
-          />
-        </View>
-        <View style={styles.buttonContainer}>
-          <Button
-            title={`Switch to ${isSignup ? "Login" : "Sign Up"}`}
-            onPress={() => {
-              setIsSignup((prevState) => !prevState);
-            }}
-          />
-        </View>
-      </ScrollView>
-      {/*</Card>*/}
-    </KeyboardAvoidingView>
-  );
-};
-
-AuthScreen.navigationOptions = {
-  headerTitle: "Authenticate",
-};
-
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    marginTop: 100,
-  },
-  gradient: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  authContainer: {
-    width: "80%",
-    maxWidth: 400,
-    maxHeight: 400,
-    padding: 20,
-  },
-  buttonContainer: {
-    marginTop: 10,
-  },
-});
-
-export default AuthScreen;
+export default postDataUsingSimplePostCall;

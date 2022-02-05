@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -14,42 +14,67 @@ import {
 import Screen from "./Screen";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
-import postDataUsingSimplePostCall from "../api/auth";
+import { UserInfoContext } from "../Context/UserInfoContext";
+
+import { UserInfoToken } from "../Context/UserInfoTokenContext";
+import { BASE_URL } from "../consts/Api";
+import { storeUserData, getUserDataByKey } from "../consts/Helper";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+// const GLOBAL = require("../consts/Api");
 
 let width = Dimensions.get("window").width;
 
 const LogInScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { UserInfo, updateUserInfo } = useContext(UserInfoContext);
 
-  // const postDataUsingSimplePostCall = () => {
-  //   axios
-  //     .post(
-  //       "http://ec2-16-170-252-161.eu-north-1.compute.amazonaws.com:8080/auth/login",
-  //       {
-  //         username: "a",
-  //         password: "a",
-  //       }
-  //     )
-  //     .then(function (response) {
-  //       // handle success
-  //       const token = JSON.stringify(response.data);
-  //       alert(token);
-  //       console.log("token - ", token);
-  //       var decoded = jwt_decode(token);
-  //       console.log(decoded);
-  //     })
-  //     .catch(function (error) {
-  //       // handle error
-  //       alert(error.message);
-  //     });
-  // };
+  let currentUser = "asd";
+  let { username, setUserName } = useState("true");
 
+  const { asd, sdf } = useContext(UserInfoToken);
+
+  // console.log("UserInfo- ", UserInfo);
+  //console.log("UserInfoToken", asd);
+  // console.log("gareta - > ", currentUser);
+
+  const postDataUsingSimplePostCall = () => {
+    return axios
+      .post(BASE_URL + "/auth/login", {
+        username: email,
+        password: password,
+      })
+      .then(function (response) {
+        const resp = JSON.stringify(response.data);
+        let decoded = jwt_decode(resp);
+        axios.defaults.headers.common["Authorization"] =
+          "Bearer " + JSON.parse(resp).token;
+
+        if (storeUserData(decoded)) {
+          console.log(" You Are Authorized");
+
+          getUserDataByKey("user_desc").then((r) => {
+            setUserName(r);
+            console.log("currentUser -> ", username);
+            currentUser = r;
+            console.log("r ->", currentUser);
+          });
+        } else {
+          Alert.alert(
+            "Autorization Failed - Can't Store Data Into Local Memory"
+          );
+        }
+      })
+      .catch(function (error) {
+        alert(error.message);
+      });
+  };
+  console.log(username);
   return (
     <Screen>
       <View style={styles.container}>
         <View style={styles.authorizationView}>
-          {/*<Text style={styles.authorization}> DeliveryMobile </Text>*/}
           <View>
             {/*<Image source={require('./src /assets/images/logo.png')}*/}
             {/*       style={{width: 40, height: 40,}}/>*/}
@@ -87,21 +112,17 @@ const LogInScreen = ({ navigation }) => {
           {/*    <Text style={styles.forgot_button}>Forgot Password?</Text>*/}
           {/*</TouchableOpacity>*/}
 
+          {/*<Text style={{ width: 40 }}>{username}</Text>*/}
+
           <TouchableOpacity
             style={styles.loginBtn}
             onPressIn={() => {
               postDataUsingSimplePostCall();
+              // asd &&
+              navigation.navigate("HomeScreen");
             }}
           >
-            <Text style={styles.loginText}>
-              {/*<Text*/}
-              {/*  style={styles.loginText}*/}
-              {/*  onPress={() => {*/}
-              {/*    alert("You tapped the button!");*/}
-              {/*  }}*/}
-              {/*>*/}
-              LOGIN
-            </Text>
+            <Text style={styles.loginText}>LOGIN</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -110,13 +131,15 @@ const LogInScreen = ({ navigation }) => {
           >
             <Text style={styles.forgot_button}>Forgot Password?</Text>
           </TouchableOpacity>
+
+          <Text style={{ backgroundColor: "pink", marginTop: 30, width: 50 }}>
+            {username}
+          </Text>
         </View>
       </View>
     </Screen>
   );
 };
-
-export default LogInScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -179,3 +202,5 @@ const styles = StyleSheet.create({
     // marginBottom: 30
   },
 });
+
+export default LogInScreen;

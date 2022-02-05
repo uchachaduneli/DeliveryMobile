@@ -25,7 +25,7 @@ const HomeScreen = ({ navigation }) => {
     <Screen>
       <ScrollView contentContainerStyle={styles.view}>
         <TouchableOpacity
-          style={[styles.touchables, { marginTop: 80 }]}
+          style={[styles.touchables, { marginTop: 30 }]}
           onPress={() => navigation.navigate("CustomerInfo")}
         >
           <Text style={styles.touchableText}>{calls}</Text>
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
   },
   touchables: {
     marginHorizontal: 130,
-    margin: 30,
+    margin: 10,
     // borderWidth: 0.2,
     borderRadius: 7,
     width: width / 1.5,

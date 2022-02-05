@@ -31,54 +31,88 @@ const Item = ({ item, onPress, backgroundColor, textColor }) => (
   </TouchableOpacity>
 );
 
-async function getUser() {
-  try {
-    const response = await axios.get(
-      BASE_URL + "/parcel/userParcels/{userId}?status=4"
-    );
-    const resp = JSON.stringify(response.data);
+export default function CustomerInfoScreen({ navigation }) {
+  useEffect(async () => {
+    try {
+      const response = await axios.get(
+        BASE_URL + "/parcel/userParcels/{userId}?status=4"
+      );
+      const resp = JSON.stringify(response.data);
 
-    let respObj = JSON.parse(resp);
-    dataLIst = [];
-    respObj.items.forEach(function (row) {
-      dataLIst.push({
-        id: row.id,
-        senderAddress: row.senderAddress,
-        senderName: row.senderName,
-        authorName: row.author.name + " " + row.author.lastName,
+      let respObj = JSON.parse(resp);
+      dataLIst = [];
+      respObj.items.forEach(function (row) {
+        dataLIst.push({
+          id: row.id,
+          senderAddress: row.senderAddress,
+          senderName: row.senderName,
+          authorName: row.author.name + " " + row.author.lastName,
+        });
       });
-    });
-    console.log(dataLIst);
-  } catch (error) {
-    console.error(error);
-  }
-}
+      // console.log(dataLIst);
+    } catch (error) {
+      console.error(error);
+    }
+  });
 
-// useEffect(() => {
-//   Alert.alert("a");
-//   // await getUser();
-// });
-export default async function CustomerInfoScreen({ navigation }) {
-  Alert.alert("b");
-  await getUser();
-  // const [selectedId, setSelectedId] = useState(null);
-  // const [senderAddress, setSenderAddress] = useState(true);
-  // const [senderName, setSenderName] = useState(true);
-  // const [authorName, setauthorName] = useState(true);
+  const RenderItem = ({ item, index }) => {
+    console.log("index -> ", index);
+    console.log("item - ", item);
+    const color2 = "blue";
+    return (
+      <TouchableOpacity
+        style={{
+          overflow: "hidden",
+          // width: width / 3,
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: 10,
+          borderWidth: 1,
+        }}
+        onPress={() => {
+          navigation.navigate("HomeScreen", {
+            name: item.senderAddress,
+            colors: color2,
+          });
+        }}
+      >
+        <Text
+          style={{
+            fontSize: 15,
+            color: "black",
+            width: width / 3,
+            textAlign: "center",
+          }}
+        >
+          {item.senderAddress}
+        </Text>
+        <Text
+          style={{
+            fontSize: 15,
+            color: "black",
+            width: width / 3,
+            textAlign: "center",
+          }}
+        >
+          {item.senderName}
+        </Text>
+        <Text
+          style={{
+            fontSize: 15,
+            color: "black",
+            width: width / 3,
+            textAlign: "center",
+            paddingRight: 5,
+          }}
+        >
+          {item.authorName}
+        </Text>
+      </TouchableOpacity>
+    );
+  };
 
-  // const renderItem = ({ item }) => {
-  //   // const backgroundColor = item.id === selectedId ? "#6e3b6e" : "#f9c2ff";
-  //   // const color = item.id === selectedId ? "white" : "black";
-  //
-  //   return (
-  //     <Item
-  //       item={item}
-  //       // onPress={() => setSelectedId(item.id)}
-  //       backgroundColor={{ backgroundColor }}
-  //       textColor={{ color }}
-  //     />
-  //   );
-  // };
+  const [selectedId, setSelectedId] = useState(null);
 
   return (
     <Screen>
@@ -94,36 +128,36 @@ export default async function CustomerInfoScreen({ navigation }) {
           <Text> {operator}</Text>
         </View>
       </View>
-      {/*<View style={{ height: "100%", flexDirection: "row" }}>*/}
-      {/*<TouchableOpacity onPress={getUser}>*/}
-      {/*  <Text> asd </Text>*/}
-      {/*</TouchableOpacity>*/}
-      {/*<View*/}
-      {/*  style={{*/}
-      {/*    padding: 8,*/}
-      {/*    // height: "100%",*/}
-      {/*  }}*/}
-      {/*>*/}
-      {/*<FlatList*/}
-      {/*  style={styles.flatListStyle}*/}
-      {/*  data={dataLIst}*/}
-      {/*  renderItem={renderItem}*/}
-      {/*  keyExtractor={(item) => item.id}*/}
-      {/*  contentContainerStyle={{ paddingBottom: 50 }}*/}
-      {/*/>*/}
-      {/*</View>*/}
-      {/*<View style={[styles.header, { marginTop: 0 }]}>*/}
-      {/*  <TouchableOpacity>*/}
-      {/*    <Text> {senderName} </Text>*/}
-      {/*  </TouchableOpacity>*/}
-      {/*  <TouchableOpacity>*/}
-      {/*    <Text> {senderAddress} </Text>*/}
-      {/*  </TouchableOpacity>*/}
-      {/*  <TouchableOpacity>*/}
-      {/*    <Text> {authorName} </Text>*/}
-      {/*  </TouchableOpacity>*/}
-      {/*</View>*/}
-      {/*</View>*/}
+      <View style={{ height: "100%", flexDirection: "row" }}>
+        {/*<TouchableOpacity onPress={getUser}>*/}
+        {/*  <Text> asd </Text>*/}
+        {/*</TouchableOpacity>*/}
+        {/*<View*/}
+        {/*  style={{*/}
+        {/*    padding: 8,*/}
+        {/*    // height: "100%",*/}
+        {/*  }}*/}
+        {/*>*/}
+        <FlatList
+          style={styles.flatListStyle}
+          data={dataLIst}
+          renderItem={RenderItem}
+          keyExtractor={(item) => item.id}
+          contentContainerStyle={{ paddingBottom: 50 }}
+        />
+        {/*</View>*/}
+        {/*<View style={[styles.header, { marginTop: 0 }]}>*/}
+        {/*  <TouchableOpacity>*/}
+        {/*    <Text> {senderName} </Text>*/}
+        {/*  </TouchableOpacity>*/}
+        {/*  <TouchableOpacity>*/}
+        {/*    <Text> {senderAddress} </Text>*/}
+        {/*  </TouchableOpacity>*/}
+        {/*  <TouchableOpacity>*/}
+        {/*    <Text> {authorName} </Text>*/}
+        {/*  </TouchableOpacity>*/}
+        {/*</View>*/}
+      </View>
     </Screen>
   );
 }

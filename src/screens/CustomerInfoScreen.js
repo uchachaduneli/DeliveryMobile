@@ -1,170 +1,209 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import {
-    View,
-    Text,
-    StyleSheet,
-    ScrollView,
-    Dimensions,
-    FlatList,
-    TouchableOpacity,
-    Alert,
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  Dimensions,
+  FlatList,
+  TouchableOpacity,
+  Alert,
 } from "react-native";
 import Screen from "./Screen";
 import axios from "axios";
-import {BASE_URL} from "../consts/Api";
-import {getUserDataByKey} from "../consts/Helper";
+import { BASE_URL } from "../consts/Api";
+import { WIDTH, HEIGHT } from "../consts/Global";
 
-let width = Dimensions.get("window").width;
-let height = Dimensions.get("window").height;
+const address = "მისამართი";
+const naming = "დასახელება";
+const operator = "ოპერატორი";
+const newOne = "ახალი";
+const seen = "ნანახი";
+const taken = "აღებული";
 
-let dataLIst = [];
+export default function CustomerInfoScreen({ navigation, route }) {
+  const [data, setData] = useState();
+  useEffect(() => {
+    axios
+      .get(BASE_URL + "/parcel/userParcels/{userId}?status=4")
+      .then(function (response) {
+        // handle success
+        setData(response.data);
 
-const Item = ({item, onPress, backgroundColor, textColor}) => (
-    <TouchableOpacity
-        onPress={onPress}
-        style={[styles.item, backgroundColor, {marginTop: 40}]}
-    >
-        <Text style={[styles.title, textColor]}>{item.title}</Text>
-    </TouchableOpacity>
-);
+        // console.log("resp -", response);
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      });
 
-async function getUserParcels(userId, statusId) {
-    const response = await axios.get(
-        BASE_URL + "/parcel/userParcels/" + userId + "?status=" + statusId
-    );
-    const resp = JSON.stringify(response.data);
-    let respObj = JSON.parse(resp);
-    dataLIst = [];
-    respObj.items.forEach(function (row) {
-        dataLIst.push({
-            id: row.id,
-            senderAddress: row.senderAddress,
-            senderName: row.senderName,
-            authorName: row.author.name + " " + row.author.lastName,
-        });
-    });
+    // try {
+    //   const response = axios.get(
+    //     BASE_URL + "/parcel/userParcels/{userId}?status=4"
+    //   );
+    // const resp = JSON.stringify(response.data);
+
+    // });
     // console.log(dataLIst);
-}
+    // } catch (error) {
+    //   console.error(error);
+    // }
+  }, []);
 
-export default function CustomerInfoScreen({navigation}) {
-    useEffect(async () => {
-        await getUserDataByKey("user_id").then(async (id) => {
-            await getUserParcels(id, 1);
-        });
+  // console.log("data?.items - ", data?.items);
+  // console.log("data - ", data);
 
-    });
-
-    const RenderItem = ({item, index}) => {
-        // console.log("index -> ", index);
-        // console.log("item - ", item);
-        const color2 = "blue";
-        return (
-            <TouchableOpacity
-                style={{
-                    overflow: "hidden",
-                    // width: width / 3,
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    marginBottom: 10,
-                    borderWidth: 1,
-                }}
-                onPress={() => {
-                    navigation.navigate("HomeScreen", {
-                        name: item.senderAddress,
-                        colors: color2,
-                    });
-                }}
-            >
-                <Text
-                    style={{
-                        fontSize: 15,
-                        color: "black",
-                        width: width / 3,
-                        textAlign: "center",
-                    }}
-                >
-                    {item.senderAddress}
-                </Text>
-                <Text
-                    style={{
-                        fontSize: 15,
-                        color: "black",
-                        width: width / 3,
-                        textAlign: "center",
-                    }}
-                >
-                    {item.senderName}
-                </Text>
-                <Text
-                    style={{
-                        fontSize: 15,
-                        color: "black",
-                        width: width / 3,
-                        textAlign: "center",
-                        paddingRight: 5,
-                    }}
-                >
-                    {item.authorName}
-                </Text>
-            </TouchableOpacity>
-        );
-    };
-
-    const [selectedId, setSelectedId] = useState(null);
-
+  const RenderItem = ({ item, index }) => {
+    // console.log("index -> ", index);
+    // console.log("item - ", item.senderContactPerson);
     return (
-        <Screen>
-            <View style={styles.header}>
-                <View style={styles.ViewsStyle}>
-                    <Text style={styles.TextsStyle}> მისამართი</Text>
-                </View>
-
-                <View style={styles.ViewsStyle}>
-                    <Text> დასახელება</Text>
-                </View>
-                <View style={styles.ViewsStyle}>
-                    <Text> ოპერატორი</Text>
-                </View>
-            </View>
-            <View style={{height: "100%", flexDirection: "row"}}>
-                <FlatList
-                    style={styles.flatListStyle}
-                    data={dataLIst}
-                    renderItem={RenderItem}
-                    keyExtractor={(item) => item.id}
-                    contentContainerStyle={{paddingBottom: 50}}
-                />
-            </View>
-        </Screen>
+      <TouchableOpacity
+        style={styles.flatListTouchStyle}
+        onPress={() => {
+          navigation.navigate("InfoDetail", {
+            // senderAddress: item.senderAddress,
+            // senderName: item.senderName,
+            // authorNameLastName: item.author.name + " " + item.author.lastName,
+            // senderIdentNumber: item.senderIdentNumber,
+            // senderCity: item.senderCity.name,
+            // senderContactPerson: item.senderContactPerson,
+            // senderPhone: item.senderPhone,
+            selectedObj: data?.items[index],
+          });
+        }}
+      >
+        <Text style={styles.flatListTextStyle}>{item.senderAddress}</Text>
+        <View style={styles.emptyView}></View>
+        <Text style={styles.flatListTextStyle}>{item.senderName}</Text>
+        <Text style={[styles.flatListTextStyle, { paddingRight: 5 }]}>
+          {item.author.name + " " + item.author.lastName}
+        </Text>
+      </TouchableOpacity>
     );
+  };
+
+  return (
+    <Screen>
+      <View style={styles.header}>
+        <View style={styles.ViewsStyle}>
+          <Text style={styles.TextsStyle}>{address}</Text>
+        </View>
+
+        <View style={styles.ViewsStyle}>
+          <Text>{naming}</Text>
+        </View>
+        <View style={styles.ViewsStyle}>
+          <Text>{operator}</Text>
+        </View>
+      </View>
+      <View style={{ height: "85%", flexDirection: "row" }}>
+        {/*// TODO: list*/}
+
+        <FlatList
+          style={styles.flatListStyle}
+          data={data?.items}
+          renderItem={RenderItem}
+          // keyExtractor={(item) => item.id}
+          // renderItem={(item) => console.log("asdasd2- > ", item)}
+          contentContainerStyle={{ paddingBottom: 50 }}
+          bounces={false}
+        />
+        {/*<Text>{route.params.username} </Text>*/}
+      </View>
+
+      <View style={styles.footerView}>
+        <TouchableOpacity
+          style={styles.footerButton}
+          onPress={() => navigation.goBack()}
+        >
+          <Text style={styles.footerButtonText}>{newOne}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.footerButton}
+          onPress={() => navigation.navigate("TrackingCodeScreen")}
+        >
+          <Text style={styles.footerButtonText}>{seen}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.footerButton}
+          onPress={() => navigation.navigate("ShipmentScreen")}
+        >
+          <Text style={styles.footerButtonText}>{taken} </Text>
+        </TouchableOpacity>
+      </View>
+    </Screen>
+  );
 }
 
 const styles = StyleSheet.create({
-    header: {
-        flexDirection: "row",
-        backgroundColor: "pink",
-        justifyContent: "space-between",
-        // paddingHorizontal: 20,
-        marginTop: 10,
-        // height: 40,
-        alignItems: "center",
-    },
-    ViewsStyle: {
-        borderWidth: 0.5,
-        height: height / 16,
-        alignItems: "center",
-        justifyContent: "center",
-        width: width / 3,
-    },
-    TextsStyle: {
-        color: "black",
-    },
-    flatListStyle: {
-        borderWidth: 0.5,
-        // height: height / 16,
-        width: width,
-        // backgroundColor: "yellow",
-        flexDirection: "row",
-    },
+  header: {
+    flexDirection: "row",
+    backgroundColor: "pink",
+    justifyContent: "space-between",
+    // paddingHorizontal: 20,
+    marginTop: 10,
+    // height: 40,
+    alignItems: "center",
+  },
+  ViewsStyle: {
+    borderWidth: 0.5,
+    height: HEIGHT / 16,
+    alignItems: "center",
+    justifyContent: "center",
+    width: WIDTH / 3,
+  },
+  TextsStyle: {
+    color: "black",
+  },
+  flatListStyle: {
+    borderWidth: 0.5,
+    // height: height / 16,
+    width: WIDTH,
+    // backgroundColor: "yellow",
+    flexDirection: "row",
+  },
+
+  flatListTouchStyle: {
+    overflow: "hidden",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 10,
+    borderWidth: 1,
+    // height: 30,
+  },
+
+  flatListTextStyle: {
+    fontSize: 15,
+    color: "black",
+    width: WIDTH / 3,
+    textAlign: "center",
+    marginTop: 5,
+    marginBottom: 5,
+  },
+
+  footerView: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    textAlign: "center",
+    // height: "7%",
+    flex: 1,
+  },
+
+  footerButton: {
+    justifyContent: "center",
+    backgroundColor: "green",
+    width: WIDTH / 3,
+    height: "100%",
+    // borderWidth: 1,
+  },
+  footerButtonText: {
+    textAlign: "center",
+    fontSize: 16,
+  },
+  emptyView: {
+    // width: 2,
+    // height: 50,
+    backgroundColor: "black",
+  },
 });

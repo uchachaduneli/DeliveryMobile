@@ -12,7 +12,7 @@ import {
 import Screen from "./Screen";
 import axios from "axios";
 import { BASE_URL } from "../consts/Api";
-import { WIDTH, HEIGHT } from "../consts/Global";
+import { WIDTH, HEIGHT, COLOR } from "../consts/Global";
 
 const address = "მისამართი";
 const naming = "დასახელება";
@@ -36,18 +36,6 @@ export default function CustomerInfoScreen({ navigation, route }) {
         // handle error
         console.log(error);
       });
-
-    // try {
-    //   const response = axios.get(
-    //     BASE_URL + "/parcel/userParcels/{userId}?status=4"
-    //   );
-    // const resp = JSON.stringify(response.data);
-
-    // });
-    // console.log(dataLIst);
-    // } catch (error) {
-    //   console.error(error);
-    // }
   }, []);
 
   // console.log("data?.items - ", data?.items);
@@ -57,28 +45,26 @@ export default function CustomerInfoScreen({ navigation, route }) {
     // console.log("index -> ", index);
     // console.log("item - ", item.senderContactPerson);
     return (
+      // <View style={{ flex: 1, backgroundColor: "yellow" }}>
       <TouchableOpacity
         style={styles.flatListTouchStyle}
         onPress={() => {
           navigation.navigate("InfoDetail", {
-            // senderAddress: item.senderAddress,
-            // senderName: item.senderName,
-            // authorNameLastName: item.author.name + " " + item.author.lastName,
-            // senderIdentNumber: item.senderIdentNumber,
-            // senderCity: item.senderCity.name,
-            // senderContactPerson: item.senderContactPerson,
-            // senderPhone: item.senderPhone,
             selectedObj: data?.items[index],
           });
         }}
       >
         <Text style={styles.flatListTextStyle}>{item.senderAddress}</Text>
+
         <View style={styles.emptyView}></View>
+
         <Text style={styles.flatListTextStyle}>{item.senderName}</Text>
+
         <Text style={[styles.flatListTextStyle, { paddingRight: 5 }]}>
           {item.author.name + " " + item.author.lastName}
         </Text>
       </TouchableOpacity>
+      // </View>
     );
   };
 
@@ -98,16 +84,20 @@ export default function CustomerInfoScreen({ navigation, route }) {
       </View>
       <View style={{ height: "85%", flexDirection: "row" }}>
         {/*// TODO: list*/}
-
-        <FlatList
-          style={styles.flatListStyle}
-          data={data?.items}
-          renderItem={RenderItem}
-          // keyExtractor={(item) => item.id}
-          // renderItem={(item) => console.log("asdasd2- > ", item)}
-          contentContainerStyle={{ paddingBottom: 50 }}
-          bounces={false}
-        />
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <FlatList
+            style={styles.flatListStyle}
+            data={data?.items}
+            renderItem={RenderItem}
+            keyExtractor={(item) => item.id}
+            // renderItem={(item) => console.log("asdasd2- > ", item)}
+            // contentContainerStyle={{
+            //   flex: 1,
+            //   flexGrow: 1,
+            // }}
+            bounces={false}
+          />
+        </ScrollView>
         {/*<Text>{route.params.username} </Text>*/}
       </View>
 
@@ -128,8 +118,18 @@ export default function CustomerInfoScreen({ navigation, route }) {
           style={styles.footerButton}
           onPress={() => navigation.navigate("ShipmentScreen")}
         >
-          <Text style={styles.footerButtonText}>{taken} </Text>
+          <Text style={styles.footerButtonText}>{taken}</Text>
         </TouchableOpacity>
+
+        {/*<TouchableOpacity style={styles.footerButton}>*/}
+        {/*  <Text style={styles.footerButtonText}> {newOne} </Text>*/}
+        {/*</TouchableOpacity>*/}
+        {/*<TouchableOpacity style={styles.footerButton}>*/}
+        {/*  <Text style={styles.footerButtonText}> {seen} </Text>*/}
+        {/*</TouchableOpacity>*/}
+        {/*<TouchableOpacity style={styles.footerButton}>*/}
+        {/*  <Text style={styles.footerButtonText}> {taken} </Text>*/}
+        {/*</TouchableOpacity>*/}
       </View>
     </Screen>
   );
@@ -138,10 +138,10 @@ export default function CustomerInfoScreen({ navigation, route }) {
 const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
-    backgroundColor: "pink",
+    backgroundColor: COLOR.DARKBLUE,
     justifyContent: "space-between",
     // paddingHorizontal: 20,
-    marginTop: 10,
+    // marginTop: 10,
     // height: 40,
     alignItems: "center",
   },
@@ -156,11 +156,10 @@ const styles = StyleSheet.create({
     color: "black",
   },
   flatListStyle: {
-    borderWidth: 0.5,
-    // height: height / 16,
+    // borderWidth: 0.5,
     width: WIDTH,
-    // backgroundColor: "yellow",
     flexDirection: "row",
+    // paddingBottom: 20,
   },
 
   flatListTouchStyle: {
@@ -192,7 +191,7 @@ const styles = StyleSheet.create({
 
   footerButton: {
     justifyContent: "center",
-    backgroundColor: "green",
+    backgroundColor: COLOR.DARKBLUE,
     width: WIDTH / 3,
     height: "100%",
     // borderWidth: 1,

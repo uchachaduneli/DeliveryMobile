@@ -12,8 +12,8 @@ import {
 } from "react-native";
 import Screen from "./Screen";
 import axios from "axios";
-import {BASE_URL, COLOR} from "../consts/Api";
-import { TabView, SceneMap } from "react-native-tab-view";
+import { BASE_URL, COLOR } from "../consts/Api";
+import { TabView, SceneMap, TabBar } from "react-native-tab-view";
 import ShipmentScreen from "./ShipmentScreen";
 import SenderScreen from "./SenderScreen";
 import { WIDTH, HEIGHT } from "../consts/Global";
@@ -29,10 +29,55 @@ const senderContactPerson = "საკონტაქტო პირი:";
 const phone = "ტელეფონი:";
 const print = "ბეჭდვა";
 const refuse = "უარი";
-
+let selectedObj = {};
 
 const FirstRoute = () => (
-  <View style={{ flex: 1, backgroundColor: "#3ab74b", width: WIDTH }} />
+  console.log("selectedObject - ", selectedObj),
+  (
+    <ScrollView showsVerticalScrollIndicator={false}>
+      <View style={styles.compView}>
+        <Text style={styles.identificationTextStyle}>{identificationCode}</Text>
+        <Text style={styles.identificationCodeStyle}>
+          {selectedObj.senderIdentNumber}
+        </Text>
+        {/*</View>*/}
+        <View style={styles.separator} />
+
+        <Text style={styles.identificationTextStyle}>{name}</Text>
+        <Text style={styles.identificationCodeStyle}>
+          {selectedObj.senderName}
+        </Text>
+        <View style={styles.separator} />
+
+        <Text style={styles.identificationTextStyle}>{senderCity}</Text>
+        <Text style={styles.identificationCodeStyle}>
+          {selectedObj.senderCity.name}
+        </Text>
+        <View style={styles.separator} />
+
+        <Text style={styles.identificationTextStyle}>{address}</Text>
+        <Text style={styles.identificationCodeStyle}>
+          {selectedObj.senderAddress}
+        </Text>
+        <View style={styles.separator} />
+
+        <Text style={styles.identificationTextStyle}>
+          {senderContactPerson}
+        </Text>
+        <Text style={styles.identificationCodeStyle}>
+          {selectedObj.senderContactPerson}
+        </Text>
+
+        <View style={styles.separator} />
+
+        <Text style={styles.identificationTextStyle}>{phone}</Text>
+        <Text style={styles.identificationCodeStyle}>
+          {selectedObj.senderPhone}
+        </Text>
+        <View style={styles.separator} />
+      </View>
+    </ScrollView>
+  )
 );
 
 const SecondRoute = () => (
@@ -50,15 +95,13 @@ const renderScene = SceneMap({
   Third: ThirdRoute,
 });
 
-
-export default function CustomerInfoScreen({ navigation, route}) {
+export default function CustomerInfoScreen({ navigation, route }) {
   const layout = useWindowDimensions();
 
   // console.log("wid - ", WIDTH);
-const  selectedObj = route.params.selectedObj;
+  selectedObj = route.params.selectedObj;
 
-console.log("selectedObject - ",selectedObj);
-
+  // console.log("selectedObject - ", selectedObj);
 
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
@@ -71,7 +114,6 @@ console.log("selectedObject - ",selectedObj);
 
   return (
     <Screen>
-      {/*<ScrollView>*/}
       <View style={{ height: "92%", paddingHorizontal: 20, width: WIDTH }}>
         <TabView
           navigationState={{ index, routes }}
@@ -79,61 +121,20 @@ console.log("selectedObject - ",selectedObj);
           onIndexChange={setIndex}
           initialLayout={{ width: layout.width }}
           style={styles.tabViewStyle}
-
+          renderTabBar={(props) => (
+            <TabBar
+              {...props}
+              renderLabel={({ route, color }) => (
+                <Text style={{ color: "white" }}>{route.title}</Text>
+              )}
+              style={{
+                backgroundColor: COLOR.DARKBLUE,
+              }}
+            />
+          )}
         />
-        <View style={styles.compView}>
-          <Text style={styles.identificationTextStyle}>{identificationCode}</Text>
-          <Text style={styles.identificationCodeStyle}>
-            {selectedObj.senderIdentNumber}
-          </Text>
-          {/*</View>*/}
-          <View style={styles.separator} />
-
-          <Text style={styles.identificationTextStyle}>{name}</Text>
-          <Text style={styles.identificationCodeStyle}>
-            {selectedObj.senderName}
-          </Text>
-          <View style={styles.separator} />
-
-          <Text style={styles.identificationTextStyle}>{senderCity}</Text>
-          <Text style={styles.identificationCodeStyle}>
-            {selectedObj.senderCity.name}
-          </Text>
-          <View style={styles.separator} />
-
-          <Text style={styles.identificationTextStyle}>{address}</Text>
-          <Text style={styles.identificationCodeStyle}>
-            {selectedObj.senderAddress}
-          </Text>
-          <View style={styles.separator} />
-
-          <Text style={styles.identificationTextStyle}>
-            {senderContactPerson}
-          </Text>
-          <Text style={styles.identificationCodeStyle}>
-            {selectedObj.senderContactPerson}
-          </Text>
-
-          <View style={styles.separator} />
-
-          <Text style={styles.identificationTextStyle}>{phone}</Text>
-          <Text style={styles.identificationCodeStyle}>
-            {selectedObj.senderPhone}
-          </Text>
-          <View style={styles.separator} />
-
-    </View>
-
+      </View>
       <View style={styles.footerView}>
-        {/*<TouchableOpacity style={styles.footerButton}>*/}
-        {/*  <Text style={styles.footerButtonText}> {newOne} </Text>*/}
-        {/*</TouchableOpacity>*/}
-        {/*<TouchableOpacity style={styles.footerButton}>*/}
-        {/*  <Text style={styles.footerButtonText}> {seen} </Text>*/}
-        {/*</TouchableOpacity>*/}
-        {/*<TouchableOpacity style={styles.footerButton}>*/}
-        {/*  <Text style={styles.footerButtonText}> {taken} </Text>*/}
-        {/*</TouchableOpacity>*/}
         <TouchableOpacity
           style={styles.footerButton}
           onPress={() => navigation.navigate("CameraScreen")}
@@ -154,9 +155,7 @@ console.log("selectedObject - ",selectedObj);
           <Text style={styles.footerButtonText}>PU </Text>
         </TouchableOpacity>
       </View>
-      </View>
       {/*</ScrollView>*/}
-
     </Screen>
   );
 }
@@ -166,37 +165,34 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     textAlign: "center",
-    height: 20,
-    flex: 1,
+    height: "6.5%",
     // marginBottom: 40,
     // marginTop: "85%",
-    width: "100%",
-
+    width: WIDTH,
+    paddingHorizontal: 20,
   },
 
   footerButton: {
     justifyContent: "center",
     backgroundColor: COLOR.DARKBLUE,
-    width: "33%",
-    height: "100%", // borderWidth: 1,
-    marginTop: 30,
-    borderRadius: 6
+    width: "32%",
+    // height: 30,
+    borderRadius: 6,
   },
   footerButtonText: {
     textAlign: "center",
     fontSize: 16,
-    color: 'white'
+    color: "white",
   },
   identificationTextStyle: {
     marginTop: 35, // color: "blue",
     fontWeight: "bold", // marginBottom: 40,
-
   },
 
   identificationCodeStyle: {
     marginTop: 10,
     fontSize: 16,
-    color: "black",
+    // color: "black",
     marginBottom: 5,
   },
   separator: {
@@ -211,7 +207,8 @@ const styles = StyleSheet.create({
     // backgroundColor: "pink",
   },
   tabViewStyle: {
-    paddingBottom: 0,
+    paddingBottom: 30,
+    // backgroundColor: 'black'
     // backgroundColor: "blue",
   },
 });

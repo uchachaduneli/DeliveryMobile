@@ -11,88 +11,113 @@ import Profile from "./Profile";
 import Screen from "./Screen";
 import SelectDropdown from "react-native-select-dropdown";
 import { AntDesign } from "@expo/vector-icons";
+import { WIDTH, HEIGHT } from "../consts/Global";
 
 const weight = "წონა";
 const price = "ფასი";
 const quantity = "რაოდენობა";
-const standard = "სტანდარტული  გადამ:";
-const date = "თარიღი:";
-const tariff = "ტარიფი";
-const operator = "ოპერატორი";
-const notice = "შენიშვნა";
+const standard = "სტანდარტული";
+const courier = "გადამტანი: ";
+const date = "თარიღი: ";
+const tariff = "ტარიფი: ";
+const operator = "ოპერატორი: ";
+const notice = "შენიშვნა: ";
+const insides = "შიგთავსი: ";
 const payerList = ["გამგზავნი", "მიმღები", "მესამე პირი"];
 const submit = ["არ არის მოთხოვნა", "ელექტრონული დასტური", "მიტანით დასტური"];
 
 const ShipmentScreen = () => {
   const [selectedValue, setSelectedValue] = useState("");
+  const [Weight, onChangeWeight] = useState(null);
   const [number, onChangeNumber] = useState(null);
+  const [Price, onChangePrice] = useState(null);
 
   return (
     <Screen>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
-          <View style={styles.viewOfRow}>
-            <View style={styles.viewAndInp}>
-              <Text style={{ marginRight: 5, fontSize: 16 }}>{weight}</Text>
+          <View style={styles.ViewInpTop}>
+            <View style={styles.innerView}>
+              <Text style={styles.textStyle}>{weight}</Text>
               <TextInput
                 style={styles.inputView}
-                onChangeText={onChangeNumber}
-                value={number}
-                placeholder="25.523"
+                onChangeText={onChangeWeight}
+                value={Weight}
+                placeholder="25.5"
+                // placeholderTextColor="black"
                 textAlign="center"
                 keyboardType="numeric"
               />
             </View>
-            <View style={styles.viewAndInp}>
-              <Text style={{ marginRight: 5 }}>{quantity}</Text>
+            <View style={styles.innerView}>
+              <Text style={styles.textStyle}>{quantity}</Text>
               <TextInput
                 style={styles.inputView}
                 onChangeText={onChangeNumber}
                 value={number}
-                placeholder="25.523"
+                placeholder="4"
+                // placeholderTextColor="black"
                 textAlign="center"
                 keyboardType="numeric"
               />
             </View>
           </View>
-          <View style={styles.viewOfRow}>
-            <View style={styles.viewAndInp}>
-              <Text style={{ marginRight: 5, fontSize: 16 }}>{price}</Text>
+
+          <View style={styles.ViewInp}>
+            <View style={styles.innerView}>
+              <Text style={styles.textStyle}>{price}</Text>
               <TextInput
                 style={styles.inputView}
-                onChangeText={onChangeNumber}
-                value={number}
-                placeholder="25.523"
+                onChangeText={onChangePrice}
+                value={Price}
+                placeholder="25.5"
                 textAlign="center"
                 keyboardType="numeric"
               />
             </View>
-            <View style={styles.viewAndInp}>
-              <Text> aq unda qeshis togli</Text>
+            <View style={styles.innerView}>
+              <SelectDropdown
+                defaultButtonText="მიმღები"
+                // dropdownStyle={{ backgroundColor: "blue", width: 100 }}
+                data={payerList}
+                buttonStyle={{
+                  // backgroundColor: "blue",
+                  // width: "100%",
+                  borderRadius: 6,
+                }}
+                renderDropdownIcon={(isOpened) => {
+                  return (
+                    <AntDesign
+                      name={isOpened ? "caretup" : "caretdown"}
+                      color={"#444"}
+                      size={14}
+                    />
+                  );
+                }}
+                dropdownIconPosition={"right"}
+                onSelect={(selectedItem, index) => {
+                  console.log(selectedItem, index);
+                }}
+                buttonTextAfterSelection={(selectedItem, index) => {
+                  return selectedItem;
+                }}
+                rowTextForSelection={(item, index) => {
+                  return item;
+                }}
+              />
             </View>
           </View>
-          <View style={styles.viewOfRow}>
-            <View style={styles.viewAndInp}>
-              <Text style={{ marginRight: 5, fontSize: 16 }}>{standard}</Text>
-            </View>
-            <View style={styles.viewAndInp}>
-              <Text>{date}</Text>
+
+          <View style={styles.ViewInp}>
+            <View style={styles.innerView}>
+              <Text style={styles.textStyle}>{courier}</Text>
+              <Text> aq curieris saxeli </Text>
             </View>
           </View>
-          {/*<Picker*/}
-          {/*  selectedValue={selectedValue}*/}
-          {/*  style={{*/}
-          {/*    height: 10,*/}
-          {/*    width: 150,*/}
-          {/*  }}*/}
-          {/*  onValueChange={(itemValue, itemIndex) =>*/}
-          {/*    setSelectedValue(itemValue)*/}
-          {/*  }*/}
-          {/*>*/}
-          {/*  <Picker.Item label="გამგზავნი" value="java" />*/}
-          {/*  <Picker.Item label="მიმღები" value="js" />*/}
-          {/*  <Picker.Item label="მესამე პირი" value="jsad" />*/}
-          {/*</Picker>*/}
+          <View style={styles.date}>
+            <Text style={styles.textStyle}>{date}</Text>
+            <Text style={styles.textStyle}>date</Text>
+          </View>
 
           <SelectDropdown
             defaultButtonText="მიმღები"
@@ -100,7 +125,7 @@ const ShipmentScreen = () => {
             data={payerList}
             buttonStyle={{
               // backgroundColor: "blue",
-              width: "70%",
+              width: "100%",
               borderRadius: 6,
               marginTop: 30,
             }}
@@ -128,9 +153,9 @@ const ShipmentScreen = () => {
             defaultButtonText="არ არის მოთხოვნა"
             buttonStyle={{
               // backgroundColor: "blue",
-              width: "70%",
+              width: "100%",
               borderRadius: 6,
-              marginTop: 30,
+              marginTop: 15,
             }}
             renderDropdownIcon={(isOpened) => {
               return (
@@ -153,6 +178,23 @@ const ShipmentScreen = () => {
               return item;
             }}
           />
+          <View style={styles.tariff}>
+            <Text style={styles.textStyle}>{tariff}</Text>
+            <Text style={styles.textStyle}>standard</Text>
+          </View>
+
+          <View style={styles.tariff}>
+            <Text style={styles.textStyle}>{operator}</Text>
+            <Text style={styles.textStyle}>standard</Text>
+          </View>
+          <View style={styles.tariff}>
+            <Text style={styles.textStyle}>{notice}</Text>
+            <Text style={styles.textStyle}>standard</Text>
+          </View>
+          <View style={[styles.tariff, { paddingBottom: 15 }]}>
+            <Text style={styles.textStyle}>{insides}</Text>
+            <Text style={styles.textStyle}>standard</Text>
+          </View>
         </View>
       </ScrollView>
     </Screen>
@@ -164,32 +206,67 @@ const styles = StyleSheet.create({
     flex: 1,
     // justifyContent: "center",
     // alignItems: "center",
-    paddingHorizontal: 14,
+    // width: WIDTH,
+    // paddingHorizontal: 20,
   },
   inputView: {
-    backgroundColor: "#fafafa",
-    borderRadius: 6,
-    width: "50%",
+    // backgroundColor: "#fafafa",
+    borderRadius: 4,
+    width: WIDTH / 6,
     height: 30,
     borderColor: "#000",
     borderWidth: 1,
     // margin: 20,
   },
-  viewAndInp: {
-    flexDirection: "row",
-    marginTop: 30,
-    alignItems: "center",
-    width: "50%",
-    // flexWrap: "wrap",
-  },
+  // viewAndInp: {
+  //   flexDirection: "row",
+  //   marginTop: 30,
+  //   alignItems: "center",
+  //   width: WIDTH / 2,
+  //   // backgroundColor: "yellow",
+  //   // paddingHorizontal: 20,
+  //   // flexWrap: "wrap",
+  // },
   viewOfRow: {
     flexDirection: "row",
-    // backgroundColor: "yellow",
     justifyContent: "space-between",
+    width: "90%",
+    paddingHorizontal: 20,
   },
   dropDownStyle: {
     width: 100,
     backgroundColor: "yellow",
+  },
+  textStyle: {
+    marginRight: 5,
+    fontSize: 16,
+  },
+  ViewInp: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    // paddingHorizontal: 20,
+    marginTop: 30,
+  },
+  ViewInpTop: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    // paddingHorizontal: 20,
+  },
+  innerView: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  date: {
+    alignItems: "center",
+    flexDirection: "row",
+    marginTop: 15,
+  },
+  tariff: {
+    alignItems: "center",
+    flexDirection: "row",
+    marginTop: 30,
   },
 });
 

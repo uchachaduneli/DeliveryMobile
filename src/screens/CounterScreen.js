@@ -8,41 +8,54 @@ import {
   Dimensions,
 } from "react-native";
 import Screen from "./Screen";
+import { WIDTH, HEIGHT, COLOR } from "../consts/Global";
 
-let width = Dimensions.get("window").width;
-let height = Dimensions.get("window").height;
-
-let arr = Array.from(Array(100).keys());
+let arr = [1, 2, 3, 4];
 
 const Counter = () => {
   const RenderItem = ({ item }) => {
     return (
-      <Screen>
-        <View style={styles.container}>
-          <TouchableOpacity style={styles.touch}>
-            <Text> {arr[item + 1]} </Text>
-          </TouchableOpacity>
-        </View>
-      </Screen>
+      <TouchableOpacity style={styles.touch}>
+        <Text style={styles.text}> {arr[item - 1]} </Text>
+      </TouchableOpacity>
     );
   };
 
-  return <FlatList data={arr} renderItem={RenderItem} />;
+  return (
+    <Screen>
+      <View style={styles.container}>
+        <FlatList
+          data={arr}
+          renderItem={RenderItem}
+          contentContainerStyle={styles.listView}
+        />
+      </View>
+    </Screen>
+  );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    height: HEIGHT,
   },
   touch: {
     justifyContent: "center",
     alignItems: "center",
-    width: width / 2,
-    height: height / 10,
-    backgroundColor: "grey",
-    marginTop: 30,
+    width: WIDTH / 1.3,
+    height: HEIGHT / 6,
+    backgroundColor: COLOR.DARKBLUE,
+    marginBottom: 20,
+    borderRadius: 6,
+  },
+  listView: {
+    flex: 1,
+    justifyContent: "center",
+  },
+  text: {
+    fontSize: 20,
+    color: COLOR.WHITE,
   },
 });
 

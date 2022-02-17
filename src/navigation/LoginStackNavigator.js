@@ -12,6 +12,8 @@ import ReceivedScreen from "../screens/ReceivedScreen";
 import CameraScreen from "../screens/CameraScreen";
 import TrackingCodeScreen from "../screens/TrackingCodeScreen";
 import SenderScreen from "../screens/SenderScreen";
+import GoInOutScreen from "../screens/CarGoInOutScreen";
+import HandlingPlusScreen from "../screens/handlingPlusScreen";
 
 const Stack = createStackNavigator();
 
@@ -43,6 +45,11 @@ const LoginStackNavigator = () => {
           <Stack.Screen
             name="TrackingCodeScreen"
             component={TrackingCodeScreen}
+          />
+          <Stack.Screen name="GoInOutScreen" component={GoInOutScreen} />
+          <Stack.Screen
+            name="HandlingPlusScreen"
+            component={HandlingPlusScreen}
           />
         </Stack.Group>
       </Stack.Navigator>

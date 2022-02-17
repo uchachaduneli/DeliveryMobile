@@ -46,7 +46,10 @@ const HomeScreen = ({ navigation, route }) => {
         >
           <Text style={styles.touchableText}>{calls}</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.touchables}>
+        <TouchableOpacity
+          style={styles.touchables}
+          onPress={() => navigation.navigate("HandlingPlusScreen")}
+        >
           <Text style={styles.touchableText}>{handlingPlus}</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.touchables}>
@@ -55,7 +58,10 @@ const HomeScreen = ({ navigation, route }) => {
         <TouchableOpacity style={styles.touchables}>
           <Text style={styles.touchableText}>{rule}</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.touchables}>
+        <TouchableOpacity
+          style={styles.touchables}
+          onPress={() => navigation.navigate("GoInOutScreen")}
+        >
           <Text style={styles.touchableText}>{taking}</Text>
         </TouchableOpacity>
       </ScrollView>

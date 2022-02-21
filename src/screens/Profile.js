@@ -13,9 +13,7 @@ import Screen from "./Screen";
 import { useContext } from "react";
 import { UserInfoContext } from "../Context/UserInfoContext";
 // import { storeUserData, getUserDataByKey } from "../consts/Helper";
-
-let width = Dimensions.get("window").width;
-let height = Dimensions.get("window").height;
+import { WIDTH } from "../consts/Global";
 
 const Profile = () => {
   // const user = useContext(UserInfoContext);
@@ -55,7 +53,7 @@ const styles = StyleSheet.create({
     margin: 20,
   },
   userView: {
-    width: width,
+    width: WIDTH,
     // backgroundColor: "#9BA2B02E",
     paddingTop: 20,
   },

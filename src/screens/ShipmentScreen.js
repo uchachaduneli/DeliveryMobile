@@ -1,22 +1,13 @@
-import React, { useState, useRef } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TextInput,
-  Picker,
-  ScrollView,
-} from "react-native";
-import Profile from "./Profile";
+import React, { useState } from "react";
+import { View, Text, StyleSheet, TextInput, ScrollView } from "react-native";
 import Screen from "./Screen";
 import SelectDropdown from "react-native-select-dropdown";
 import { AntDesign } from "@expo/vector-icons";
-import { WIDTH, HEIGHT } from "../consts/Global";
+import { WIDTH, COLOR } from "../consts/Global";
 
 const weight = "წონა";
-const price = "ფასი";
+const Price = "ფასი";
 const quantity = "რაოდენობა";
-const standard = "სტანდარტული";
 const courier = "გადამტანი: ";
 const date = "თარიღი: ";
 const tariff = "ტარიფი: ";
@@ -27,10 +18,9 @@ const payerList = ["გამგზავნი", "მიმღები", "მ�
 const submit = ["არ არის მოთხოვნა", "ელექტრონული დასტური", "მიტანით დასტური"];
 
 const ShipmentScreen = () => {
-  const [selectedValue, setSelectedValue] = useState("");
   const [Weight, onChangeWeight] = useState(null);
   const [number, onChangeNumber] = useState(null);
-  const [Price, onChangePrice] = useState(null);
+  const [price, onChangePrice] = useState(null);
 
   return (
     <Screen>
@@ -44,7 +34,6 @@ const ShipmentScreen = () => {
                 onChangeText={onChangeWeight}
                 value={Weight}
                 placeholder="25.5"
-                // placeholderTextColor="black"
                 textAlign="center"
                 keyboardType="numeric"
               />
@@ -56,7 +45,6 @@ const ShipmentScreen = () => {
                 onChangeText={onChangeNumber}
                 value={number}
                 placeholder="4"
-                // placeholderTextColor="black"
                 textAlign="center"
                 keyboardType="numeric"
               />
@@ -65,12 +53,12 @@ const ShipmentScreen = () => {
 
           <View style={styles.ViewInp}>
             <View style={styles.innerView}>
-              <Text style={styles.textStyle}>{price}</Text>
+              <Text style={styles.textStyle}>{Price}</Text>
               <TextInput
                 style={styles.inputView}
                 onChangeText={onChangePrice}
-                value={Price}
-                placeholder="25.5"
+                value={price}
+                placeholder="25.35"
                 textAlign="center"
                 keyboardType="numeric"
               />
@@ -78,11 +66,8 @@ const ShipmentScreen = () => {
             <View style={styles.innerView}>
               <SelectDropdown
                 defaultButtonText="მიმღები"
-                // dropdownStyle={{ backgroundColor: "blue", width: 100 }}
                 data={payerList}
                 buttonStyle={{
-                  // backgroundColor: "blue",
-                  // width: "100%",
                   borderRadius: 6,
                 }}
                 renderDropdownIcon={(isOpened) => {
@@ -124,7 +109,6 @@ const ShipmentScreen = () => {
             // dropdownStyle={{ backgroundColor: "blue", width: 100 }}
             data={payerList}
             buttonStyle={{
-              // backgroundColor: "blue",
               width: "100%",
               borderRadius: 6,
               marginTop: 30,
@@ -152,7 +136,6 @@ const ShipmentScreen = () => {
           <SelectDropdown
             defaultButtonText="არ არის მოთხოვნა"
             buttonStyle={{
-              // backgroundColor: "blue",
               width: "100%",
               borderRadius: 6,
               marginTop: 15,
@@ -166,7 +149,6 @@ const ShipmentScreen = () => {
                 />
               );
             }}
-            // dropdownStyle={{ backgroundColor: "blue" }}
             data={submit}
             onSelect={(selectedItem, index) => {
               console.log(selectedItem, index);
@@ -204,29 +186,16 @@ const ShipmentScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // justifyContent: "center",
-    // alignItems: "center",
-    // width: WIDTH,
-    // paddingHorizontal: 20,
+
+    marginTop: 20,
   },
   inputView: {
-    // backgroundColor: "#fafafa",
     borderRadius: 4,
-    width: WIDTH / 6,
+    width: WIDTH / 5,
     height: 30,
-    borderColor: "#000",
+    borderColor: COLOR.DARKBLUE,
     borderWidth: 1,
-    // margin: 20,
   },
-  // viewAndInp: {
-  //   flexDirection: "row",
-  //   marginTop: 30,
-  //   alignItems: "center",
-  //   width: WIDTH / 2,
-  //   // backgroundColor: "yellow",
-  //   // paddingHorizontal: 20,
-  //   // flexWrap: "wrap",
-  // },
   viewOfRow: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -245,14 +214,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    // paddingHorizontal: 20,
     marginTop: 30,
   },
   ViewInpTop: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    // paddingHorizontal: 20,
   },
   innerView: {
     flexDirection: "row",

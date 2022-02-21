@@ -15,9 +15,7 @@ import axios from "axios";
 import { BASE_URL } from "../consts/Api";
 import { TabView, SceneMap } from "react-native-tab-view";
 import ShipmentScreen from "./ShipmentScreen";
-
-let width = Dimensions.get("window").width;
-let height = Dimensions.get("window").height;
+import { WIDTH, COLOR, HEIGHT } from "../consts/Global";
 
 const newOne = "გამგზავნი";
 const seen = "მიმღები";
@@ -129,7 +127,7 @@ const styles = StyleSheet.create({
   footerButton: {
     justifyContent: "center",
     backgroundColor: "green",
-    width: width / 3,
+    width: WIDTH / 3,
     height: "100%", // borderWidth: 1,
   },
   footerButtonText: {
@@ -152,7 +150,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1, // marginBottom: 15,
   },
   compView: {
-    width: width, // height: height / 10,
+    width: WIDTH, // height: height / 10,
     backgroundColor: "pink",
   },
   tabViewStyle: {

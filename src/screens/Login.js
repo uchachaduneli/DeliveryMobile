@@ -20,8 +20,6 @@ import jwt_decode from "jwt-decode";
 import { BASE_URL } from "../consts/Api";
 import { storeUserData, getUserDataByKey } from "../consts/Helper";
 
-let width = Dimensions.get("window").width;
-
 let userInf;
 
 const LogInScreen = ({ navigation }) => {
@@ -116,9 +114,9 @@ const LogInScreen = ({ navigation }) => {
             onPressIn={() => {
               postDataUsingSimplePostCall();
               // userInf
-                 navigation.navigate("HomeScreen", {
-                    authorName: username,
-                  })
+              navigation.navigate("HomeScreen", {
+                authorName: username,
+              });
             }}
           >
             <Text style={styles.loginText}>LOGIN</Text>

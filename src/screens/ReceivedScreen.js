@@ -12,9 +12,7 @@ import {
 import Screen from "./Screen";
 import axios from "axios";
 import { BASE_URL } from "../consts/Api";
-
-let width = Dimensions.get("window").width;
-let height = Dimensions.get("window").height;
+import { WIDTH, COLOR, HEIGHT } from "../consts/Global";
 
 const newOne = "გამგზავნი";
 const seen = "მიმღები";
@@ -116,7 +114,7 @@ const styles = StyleSheet.create({
   footerButton: {
     justifyContent: "center",
     backgroundColor: "green",
-    width: width / 3,
+    width: WIDTH / 3,
     height: "100%", // borderWidth: 1,
   },
   footerButtonText: {

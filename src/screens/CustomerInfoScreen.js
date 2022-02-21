@@ -13,6 +13,7 @@ import Screen from "./Screen";
 import axios from "axios";
 import { BASE_URL } from "../consts/Api";
 import { WIDTH, HEIGHT, COLOR } from "../consts/Global";
+import ReceivedScreen from "./ReceivedScreen";
 
 const address = "მისამართი";
 const naming = "დასახელება";
@@ -27,25 +28,20 @@ export default function CustomerInfoScreen({ navigation, route }) {
     axios
       .get(BASE_URL + "/parcel/userParcels/{userId}?status=4")
       .then(function (response) {
-        // handle success
         setData(response.data);
-
-        // console.log("resp -", response);
+        console.log(response.data);
       })
       .catch(function (error) {
-        // handle error
         console.log(error);
       });
   }, []);
 
   // console.log("data?.items - ", data?.items);
-  // console.log("data - ", data);
 
   const RenderItem = ({ item, index }) => {
-    // console.log("index -> ", index);
-    // console.log("item - ", item.senderContactPerson);
+    // console.log("item - ", item.author);
+
     return (
-      // <View style={{ flex: 1, backgroundColor: "yellow" }}>
       <TouchableOpacity
         style={styles.flatListTouchStyle}
         onPress={() => {
@@ -61,10 +57,9 @@ export default function CustomerInfoScreen({ navigation, route }) {
         <Text style={styles.flatListTextStyle}>{item.senderName}</Text>
 
         <Text style={[styles.flatListTextStyle, { paddingRight: 5 }]}>
-          {item.author.name + " " + item.author.lastName}
+          {item.author?.name + " " + item.author?.lastName}
         </Text>
       </TouchableOpacity>
-      // </View>
     );
   };
 
@@ -90,15 +85,9 @@ export default function CustomerInfoScreen({ navigation, route }) {
             data={data?.items}
             renderItem={RenderItem}
             keyExtractor={(item) => item.id}
-            // renderItem={(item) => console.log("asdasd2- > ", item)}
-            // contentContainerStyle={{
-            //   flex: 1,
-            //   flexGrow: 1,
-            // }}
             bounces={false}
           />
         </ScrollView>
-        {/*<Text>{route.params.username} </Text>*/}
       </View>
 
       <View style={styles.footerView}>
@@ -108,10 +97,7 @@ export default function CustomerInfoScreen({ navigation, route }) {
         >
           <Text style={styles.footerButtonText}>{newOne}</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.footerButton}
-          onPress={() => navigation.navigate("TrackingCodeScreen")}
-        >
+        <TouchableOpacity style={styles.footerButton}>
           <Text style={styles.footerButtonText}>{seen}</Text>
         </TouchableOpacity>
         <TouchableOpacity

@@ -1,8 +1,6 @@
 import Constants from "expo-constants";
 import React from "react";
 import { EvilIcons } from "@expo/vector-icons";
-import { COLOR } from "../consts/Api";
-
 import {
   StyleSheet,
   SafeAreaView,
@@ -13,9 +11,7 @@ import {
   ScrollView,
 } from "react-native";
 import Screen from "./Screen";
-
-let width = Dimensions.get("window").width;
-let height = Dimensions.get("window").height;
+import { WIDTH, COLOR, HEIGHT } from "../consts/Global";
 
 const HomeScreen = ({ navigation, route }) => {
   const calls = "გამოძახებები";
@@ -30,7 +26,7 @@ const HomeScreen = ({ navigation, route }) => {
         <View
           style={{
             alignItems: "flex-end",
-            width: width,
+            width: WIDTH,
           }}
         >
           <TouchableOpacity
@@ -52,7 +48,10 @@ const HomeScreen = ({ navigation, route }) => {
         >
           <Text style={styles.touchableText}>{handlingPlus}</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.touchables}>
+        <TouchableOpacity
+          style={styles.touchables}
+          onPress={() => navigation.navigate("TrackingCodeScreen")}
+        >
           <Text style={styles.touchableText}>{handling}</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.touchables}>
@@ -85,8 +84,8 @@ const styles = StyleSheet.create({
     margin: 10,
     // borderWidth: 0.2,
     borderRadius: 7,
-    width: width / 1.5,
-    height: height / 10.5,
+    width: WIDTH / 1.5,
+    height: HEIGHT / 10.5,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#5564BE",

@@ -32,56 +32,91 @@ const refuse = "უარი";
 let selectedObj = {};
 
 const FirstRoute = () => (
-  console.log("selectedObject - ", selectedObj),
-  (
-    <ScrollView showsVerticalScrollIndicator={false}>
-      <View style={styles.compView}>
-        <Text style={styles.identificationTextStyle}>{identificationCode}</Text>
-        <Text style={styles.identificationCodeStyle}>
-          {selectedObj.senderIdentNumber}
-        </Text>
-        {/*</View>*/}
-        <View style={styles.separator} />
+  <ScrollView showsVerticalScrollIndicator={false}>
+    <View style={styles.compView}>
+      <Text style={styles.identificationTextStyle}>{identificationCode}</Text>
+      <Text style={styles.identificationCodeStyle}>
+        {selectedObj.senderIdentNumber}
+      </Text>
+      {/*</View>*/}
+      <View style={styles.separator} />
 
-        <Text style={styles.identificationTextStyle}>{name}</Text>
-        <Text style={styles.identificationCodeStyle}>
-          {selectedObj.senderName}
-        </Text>
-        <View style={styles.separator} />
+      <Text style={styles.identificationTextStyle}>{name}</Text>
+      <Text style={styles.identificationCodeStyle}>
+        {selectedObj.senderName}
+      </Text>
+      <View style={styles.separator} />
 
-        <Text style={styles.identificationTextStyle}>{senderCity}</Text>
-        <Text style={styles.identificationCodeStyle}>
-          {selectedObj.senderCity.name}
-        </Text>
-        <View style={styles.separator} />
+      <Text style={styles.identificationTextStyle}>{senderCity}</Text>
+      <Text style={styles.identificationCodeStyle}>
+        {selectedObj.senderCity.name}
+      </Text>
+      <View style={styles.separator} />
 
-        <Text style={styles.identificationTextStyle}>{address}</Text>
-        <Text style={styles.identificationCodeStyle}>
-          {selectedObj.senderAddress}
-        </Text>
-        <View style={styles.separator} />
+      <Text style={styles.identificationTextStyle}>{address}</Text>
+      <Text style={styles.identificationCodeStyle}>
+        {selectedObj.senderAddress}
+      </Text>
+      <View style={styles.separator} />
 
-        <Text style={styles.identificationTextStyle}>
-          {senderContactPerson}
-        </Text>
-        <Text style={styles.identificationCodeStyle}>
-          {selectedObj.senderContactPerson}
-        </Text>
+      <Text style={styles.identificationTextStyle}>{senderContactPerson}</Text>
+      <Text style={styles.identificationCodeStyle}>
+        {selectedObj.senderContactPerson}
+      </Text>
 
-        <View style={styles.separator} />
+      <View style={styles.separator} />
 
-        <Text style={styles.identificationTextStyle}>{phone}</Text>
-        <Text style={styles.identificationCodeStyle}>
-          {selectedObj.senderPhone}
-        </Text>
-        <View style={styles.separator} />
-      </View>
-    </ScrollView>
-  )
+      <Text style={styles.identificationTextStyle}>{phone}</Text>
+      <Text style={styles.identificationCodeStyle}>
+        {selectedObj.senderPhone}
+      </Text>
+      <View style={styles.separator} />
+    </View>
+  </ScrollView>
 );
 
 const SecondRoute = () => (
-  <View style={{ flex: 1, backgroundColor: "#673ab7" }} />
+  <ScrollView showsVerticalScrollIndicator={false}>
+    <View style={styles.compView}>
+      <Text style={styles.identificationTextStyle}>{identificationCode}</Text>
+      <Text style={styles.identificationCodeStyle}>
+        {selectedObj.senderIdentNumber}
+      </Text>
+      {/*</View>*/}
+      <View style={styles.separator} />
+
+      <Text style={styles.identificationTextStyle}>{name}</Text>
+      <Text style={styles.identificationCodeStyle}>
+        {selectedObj.senderName}
+      </Text>
+      <View style={styles.separator} />
+
+      <Text style={styles.identificationTextStyle}>{senderCity}</Text>
+      <Text style={styles.identificationCodeStyle}>
+        {selectedObj.senderCity.name}
+      </Text>
+      <View style={styles.separator} />
+
+      <Text style={styles.identificationTextStyle}>{address}</Text>
+      <Text style={styles.identificationCodeStyle}>
+        {selectedObj.senderAddress}
+      </Text>
+      <View style={styles.separator} />
+
+      <Text style={styles.identificationTextStyle}>{senderContactPerson}</Text>
+      <Text style={styles.identificationCodeStyle}>
+        {selectedObj.senderContactPerson}
+      </Text>
+
+      <View style={styles.separator} />
+
+      <Text style={styles.identificationTextStyle}>{phone}</Text>
+      <Text style={styles.identificationCodeStyle}>
+        {selectedObj.senderPhone}
+      </Text>
+      <View style={styles.separator} />
+    </View>
+  </ScrollView>
 );
 
 const ThirdRoute = () => (
@@ -98,10 +133,7 @@ const renderScene = SceneMap({
 export default function CustomerInfoScreen({ navigation, route }) {
   const layout = useWindowDimensions();
 
-  // console.log("wid - ", WIDTH);
   selectedObj = route.params.selectedObj;
-
-  // console.log("selectedObject - ", selectedObj);
 
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
@@ -141,10 +173,7 @@ export default function CustomerInfoScreen({ navigation, route }) {
         >
           <Text style={styles.footerButtonText}>{refuse} </Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.footerButton}
-          onPress={() => navigation.navigate("ReceivedScreen")}
-        >
+        <TouchableOpacity style={styles.footerButton}>
           <Text style={styles.footerButtonText}>{print} </Text>
         </TouchableOpacity>
 

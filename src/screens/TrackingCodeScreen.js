@@ -14,7 +14,7 @@ import { AntDesign } from "@expo/vector-icons";
 import SelectDropdown from "react-native-select-dropdown";
 import { COLOR, WIDTH } from "../consts/Global";
 
-const code = "კოდი";
+const Code = "კოდი";
 const tracking = "თრექინგ #";
 const lowerCode = "ქვეკოდი";
 const reciever = "მიმღები";
@@ -51,7 +51,7 @@ const TrackingCodeScreen = () => {
           </View>
 
           <View style={styles.viewAndInpOfCode}>
-            <Text style={styles.TextStyle}>{code}</Text>
+            <Text style={styles.TextStyle}>{Code}</Text>
             <SelectDropdown
               defaultButtonText="OK"
               buttonStyle={{
@@ -149,16 +149,13 @@ const TrackingCodeScreen = () => {
           </View>
 
           <View style={styles.explanationViewStyle}>
-            <Text style={[styles.TextStyle, { marginBottom: 10 }]}>
-              {explanation}
-            </Text>
+            <Text style={styles.explanationTextStyle}>{explanation}</Text>
             <TextInput
-              style={styles.inputView}
+              style={styles.inputexplanationView}
               onChangeText={setExplain}
               value={explain}
+              multiline={true}
               placeholder=" ნათესაური კავშირი"
-              // textAlign="center"
-              keyboardType="numeric"
             />
           </View>
         </View>
@@ -237,7 +234,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     // position: "absolute",
     bottom: 20,
-    paddingHorizontal: 15,
+    paddingHorizontal: 20,
     marginTop: "auto",
   },
   bottomTouchStyle: {
@@ -251,6 +248,19 @@ const styles = StyleSheet.create({
   touchTextStyle: {
     fontSize: 16,
     color: COLOR.WHITE,
+  },
+  explanationTextStyle: {
+    fontSize: 16,
+    marginBottom: 10,
+  },
+  inputexplanationView: {
+    backgroundColor: "#fafafa",
+    borderRadius: 4,
+    width: "100%",
+    height: 60,
+    borderColor: COLOR.DARKBLUE,
+    borderWidth: 1,
+    textAlignVertical: "top",
   },
 });
 

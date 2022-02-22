@@ -90,14 +90,14 @@ export default function HandlingPlusScreen() {
 const styles = StyleSheet.create({
   container: {
     // flex: 1,
-    paddingHorizontal: 15,
+    paddingHorizontal: 20,
     marginTop: 50,
   },
   inputView: {
     borderRadius: 4,
     width: "77%",
     height: 40,
-    borderColor: "#000",
+    borderColor: COLOR.DARKBLUE,
     borderWidth: 1,
     fontSize: 16,
   },
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     width: "100%",
     height: 40,
-    borderColor: "#000",
+    borderColor: COLOR.DARKBLUE,
     borderWidth: 1,
     fontSize: 16,
     marginBottom: 30,
@@ -123,8 +123,6 @@ const styles = StyleSheet.create({
   touchStyle: {
     borderRadius: 4,
     height: 40,
-    borderColor: "#000",
-    borderWidth: 1,
     justifyContent: "center",
     alignItems: "center",
     width: "20%",

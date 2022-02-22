@@ -79,7 +79,7 @@ export default function GoInOutScreen() {
 const styles = StyleSheet.create({
   container: {
     // flex: 1,
-    paddingHorizontal: 15,
+    paddingHorizontal: 20,
     marginTop: 20,
   },
   inputView: {
@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     // position: "absolute",
     bottom: 20,
-    paddingHorizontal: 15,
+    paddingHorizontal: 20,
     marginTop: "auto",
   },
   bottomTouchStyle: {

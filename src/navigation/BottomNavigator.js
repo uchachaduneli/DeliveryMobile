@@ -1,74 +1,72 @@
-// import React from "react";
-// import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-// import HomeScreen from "../screens/HomeScreen";
-// import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
-// import Profile from "../screens/Profile";
-// import { NavigationContainer } from "@react-navigation/native";
-//
-// const Tab = createBottomTabNavigator();
-//
-// const BottomTabNavigator = () => {
-//   return (
-//     <NavigationContainer>
-//       <Tab.Navigator
-//         screenOptions={{ headerShown: false }}
-//         tabBarOptions={{
-//           style: {
-//             height: 75,
-//             borderTopWidth: 0,
-//             borderTopLeftRadius: 30,
-//             borderTopRightRadius: 30,
-//             elevation: 0,
-//             margin: 0,
-//             justifyContent: "center",
-//             alignItems: "center",
-//             alignSelf: "center",
-//             tabStyle: {
-//               width: "auto",
-//               height: "auto",
-//             },
-//           },
-//           showLabel: false,
-//           activeTintColor: "darkblue",
-//           inactiveTintColor: "red",
-//         }}
-//       >
-//         <Tab.Screen name="Home" component={HomeScreen} />
-//         <Tab.Screen name="Profile" component={Profile} />
-//       </Tab.Navigator>
-//     </NavigationContainer>
-//   );
-// };
-//
-// const styles = StyleSheet.create({
-//   addButtonText: {
-//     color: "#fff",
-//     fontSize: 60,
-//     justifyContent: "center",
-//     alignItems: "center",
-//     top: -9,
-//   },
-// });
-//
-// export default BottomTabNavigator;
-
+import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import HomeScreen from "../screens/HomeScreen";
+import { StyleSheet } from "react-native";
 import Profile from "../screens/Profile";
-import { NavigationContainer } from "@react-navigation/native";
-import Counter from "../screens/CounterScreen";
+import { Entypo } from "@expo/vector-icons";
+import CustomerInfoScreen from "../screens/CustomerInfoScreen";
+import { COLOR } from "../consts/Global";
 
 const Tab = createBottomTabNavigator();
 
-const Tabs = () => {
+export default function BottomTabNavigator() {
   return (
-    <NavigationContainer>
-      <Tab.Navigator>
-        <Tab.Screen name="HomeScreen" component={HomeScreen} />
-        <Tab.Screen name="Profile" component={Profile} />
-      </Tab.Navigator>
-    </NavigationContainer>
-  );
-};
+    <Tab.Navigator
+      tabBarOptions={{
+        keyboardHidesTabBar: true,
+        // tabBarActiveBackgroundColor: "red",
+      }}
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: "#fff",
+        tabBarInactiveTintColor: "#000",
+        tabBarStyle: {
+          backgroundColor: COLOR.DARKBLUE,
 
-export default Tabs;
+          height: 40,
+          paddingBottom: 12,
+        },
+        tabBarLabelStyle: {
+          fontSize: 15,
+          textAlign: "center",
+        },
+      }}
+    >
+      <Tab.Screen
+        name="ახალი "
+        options={{
+          tabBarIcon: ({ color, size }) => <Entypo />,
+        }}
+        tabStyle={{
+          borderRightWidth: 1,
+          borderColor: "green",
+        }}
+        component={CustomerInfoScreen}
+      />
+      <Tab.Screen
+        name="ნანახი"
+        options={{
+          tabBarIcon: ({ color, size }) => <Entypo />,
+        }}
+        component={Profile}
+      />
+
+      <Tab.Screen
+        name="აღებული"
+        options={{
+          tabBarIcon: ({ color, size }) => <Entypo />,
+        }}
+        component={Profile}
+      />
+    </Tab.Navigator>
+  );
+}
+
+const styles = StyleSheet.create({
+  addButtonText: {
+    // color: "#fff",
+    // fontSize: 60,
+    // justifyContent: "center",
+    // alignItems: "center",
+    // top: -9,
+  },
+});

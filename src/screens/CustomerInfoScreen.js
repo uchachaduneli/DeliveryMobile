@@ -89,34 +89,6 @@ export default function CustomerInfoScreen({ navigation, route }) {
           />
         </ScrollView>
       </View>
-
-      <View style={styles.footerView}>
-        <TouchableOpacity
-          style={styles.footerButton}
-          onPress={() => navigation.goBack()}
-        >
-          <Text style={styles.footerButtonText}>{newOne}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.footerButton}>
-          <Text style={styles.footerButtonText}>{seen}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.footerButton}
-          onPress={() => navigation.navigate("ShipmentScreen")}
-        >
-          <Text style={styles.footerButtonText}>{taken}</Text>
-        </TouchableOpacity>
-
-        {/*<TouchableOpacity style={styles.footerButton}>*/}
-        {/*  <Text style={styles.footerButtonText}> {newOne} </Text>*/}
-        {/*</TouchableOpacity>*/}
-        {/*<TouchableOpacity style={styles.footerButton}>*/}
-        {/*  <Text style={styles.footerButtonText}> {seen} </Text>*/}
-        {/*</TouchableOpacity>*/}
-        {/*<TouchableOpacity style={styles.footerButton}>*/}
-        {/*  <Text style={styles.footerButtonText}> {taken} </Text>*/}
-        {/*</TouchableOpacity>*/}
-      </View>
     </Screen>
   );
 }

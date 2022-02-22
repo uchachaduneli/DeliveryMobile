@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TextInput, ScrollView } from "react-native";
 import Screen from "./Screen";
 import SelectDropdown from "react-native-select-dropdown";
 import { AntDesign } from "@expo/vector-icons";
 import { WIDTH, COLOR } from "../consts/Global";
+import axios from "axios";
+import BASE_URL from "../consts/Api";
 
 const weight = "წონა";
 const Price = "ფასი";
@@ -21,6 +23,41 @@ const ShipmentScreen = () => {
   const [Weight, onChangeWeight] = useState(null);
   const [number, onChangeNumber] = useState(null);
   const [price, onChangePrice] = useState(null);
+  const [data, setData] = useState();
+
+  const fetchApi = async () => {
+    await axios
+      .put(
+        "http://ec2-16-170-252-161.eu-north-1.compute.amazonaws.com:8080/parcel/4",
+        data
+      )
+      .then((res) => {
+        setData(res.data);
+        onChangeWeight("");
+        onChangeNumber("");
+        onChangePrice("");
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
+  // useEffect(() => {
+  //   axios
+  //     .put(
+  //       "http://ec2-16-170-252-161.eu-north-1.compute.amazonaws.com:8080/parcel/2",
+  //       data
+  //     )
+  //     .then((res) => {
+  //       setData(res.data);
+  //       onChangeWeight("");
+  //       onChangeNumber("");
+  //       onChangePrice("");
+  //     })
+  //     .catch(function (error) {
+  //       console.log(error);
+  //     });
+  // }, []);
 
   return (
     <Screen>
@@ -80,9 +117,7 @@ const ShipmentScreen = () => {
                   );
                 }}
                 dropdownIconPosition={"right"}
-                onSelect={(selectedItem, index) => {
-                  console.log(selectedItem, index);
-                }}
+                onSelect={(selectedItem, index) => {}}
                 buttonTextAfterSelection={(selectedItem, index) => {
                   return selectedItem;
                 }}
@@ -123,9 +158,7 @@ const ShipmentScreen = () => {
               );
             }}
             dropdownIconPosition={"right"}
-            onSelect={(selectedItem, index) => {
-              console.log(selectedItem, index);
-            }}
+            onSelect={(selectedItem, index) => {}}
             buttonTextAfterSelection={(selectedItem, index) => {
               return selectedItem;
             }}
@@ -150,9 +183,7 @@ const ShipmentScreen = () => {
               );
             }}
             data={submit}
-            onSelect={(selectedItem, index) => {
-              console.log(selectedItem, index);
-            }}
+            onSelect={(selectedItem, index) => {}}
             buttonTextAfterSelection={(selectedItem, index) => {
               return selectedItem;
             }}

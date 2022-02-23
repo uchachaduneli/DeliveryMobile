@@ -4,7 +4,6 @@ import {
   Text,
   StyleSheet,
   ScrollView,
-  Dimensions,
   FlatList,
   TouchableOpacity,
   Alert,
@@ -12,15 +11,11 @@ import {
 } from "react-native";
 import Screen from "./Screen";
 import axios from "axios";
-import { BASE_URL, COLOR } from "../consts/Api";
+import { BASE_URL } from "../consts/Api";
 import { TabView, SceneMap, TabBar } from "react-native-tab-view";
 import ShipmentScreen from "./ShipmentScreen";
-import SenderScreen from "./SenderScreen";
-import { WIDTH, HEIGHT } from "../consts/Global";
+import { WIDTH, COLOR } from "../consts/Global";
 
-const newOne = "გამგზავნი";
-const seen = "მიმღები";
-const taken = "გზავნილი";
 const identificationCode = "საიდენტიფიკაციო კოდი:";
 const name = "დასახელება:";
 const senderCity = "ქალაქი:";

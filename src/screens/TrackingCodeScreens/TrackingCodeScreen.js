@@ -8,11 +8,11 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import Profile from "./Profile";
-import Screen from "./Screen";
+import Profile from "../Profile";
+import Screen from "../Screen";
 import { AntDesign } from "@expo/vector-icons";
 import SelectDropdown from "react-native-select-dropdown";
-import { COLOR, WIDTH } from "../consts/Global";
+import { COLOR, WIDTH } from "../../consts/Global";
 
 const Code = "კოდი";
 const tracking = "თრექინგ #";
@@ -240,7 +240,7 @@ const styles = StyleSheet.create({
   bottomTouchStyle: {
     width: WIDTH / 2.3,
     backgroundColor: COLOR.DARKBLUE,
-    height: 50,
+    height: 40,
     borderRadius: 6,
     alignItems: "center",
     justifyContent: "center",

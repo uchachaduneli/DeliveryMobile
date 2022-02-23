@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, TextInput, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import Screen from "./Screen";
 import SelectDropdown from "react-native-select-dropdown";
 import { AntDesign } from "@expo/vector-icons";
@@ -18,46 +25,57 @@ const notice = "შენიშვნა: ";
 const insides = "შიგთავსი: ";
 const payerList = ["გამგზავნი", "მიმღები", "მესამე პირი"];
 const submit = ["არ არის მოთხოვნა", "ელექტრონული დასტური", "მიტანით დასტური"];
+let selectedCash;
+let selectedpayerSide;
+let selectedPermission;
 
 const ShipmentScreen = () => {
   const [Weight, onChangeWeight] = useState(null);
-  const [number, onChangeNumber] = useState(null);
+  const [count, onChangeCount] = useState(null);
   const [price, onChangePrice] = useState(null);
-  const [data, setData] = useState();
 
   const fetchApi = async () => {
-    await axios
+    // await axios
+    //   .put(
+    //     "http://ec2-16-170-252-161.eu-north-1.compute.amazonaws.com:8080/parcel/4\n",
+    //     data
+    //   )
+    //   .then((res) => {
+    //     setData(res.data);
+    //     onChangeWeight("");
+    //     onChangeNumber("");
+    //     onChangePrice("");
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error);
+    //   });
+  };
+
+  useEffect(() => {
+    axios
       .put(
         "http://ec2-16-170-252-161.eu-north-1.compute.amazonaws.com:8080/parcel/4",
-        data
+        {
+          id: 4,
+          count: count,
+          weight: Weight,
+          payerSide: 1,
+          totalPrice: price,
+          status: { id: 1 },
+        }
       )
       .then((res) => {
-        setData(res.data);
+        console.log("response -> ", res.data.id);
         onChangeWeight("");
         onChangeNumber("");
         onChangePrice("");
       })
-      .catch(function (error) {
-        console.log(error);
+      .catch((error) => {
+        console.log(error.response.data);
       });
-  };
+  }, []);
 
-  // useEffect(() => {
-  //   axios
-  //     .put(
-  //       "http://ec2-16-170-252-161.eu-north-1.compute.amazonaws.com:8080/parcel/2",
-  //       data
-  //     )
-  //     .then((res) => {
-  //       setData(res.data);
-  //       onChangeWeight("");
-  //       onChangeNumber("");
-  //       onChangePrice("");
-  //     })
-  //     .catch(function (error) {
-  //       console.log(error);
-  //     });
-  // }, []);
+  // console.log("asd - ", res.data);
 
   return (
     <Screen>
@@ -79,8 +97,8 @@ const ShipmentScreen = () => {
               <Text style={styles.textStyle}>{quantity}</Text>
               <TextInput
                 style={styles.inputView}
-                onChangeText={onChangeNumber}
-                value={number}
+                onChangeText={onChangeCount}
+                value={count}
                 placeholder="4"
                 textAlign="center"
                 keyboardType="numeric"
@@ -102,7 +120,7 @@ const ShipmentScreen = () => {
             </View>
             <View style={styles.innerView}>
               <SelectDropdown
-                defaultButtonText="მიმღები"
+                defaultButtonText="ქეში"
                 data={payerList}
                 buttonStyle={{
                   borderRadius: 6,
@@ -119,6 +137,7 @@ const ShipmentScreen = () => {
                 dropdownIconPosition={"right"}
                 onSelect={(selectedItem, index) => {}}
                 buttonTextAfterSelection={(selectedItem, index) => {
+                  selectedCash = index;
                   return selectedItem;
                 }}
                 rowTextForSelection={(item, index) => {
@@ -160,6 +179,7 @@ const ShipmentScreen = () => {
             dropdownIconPosition={"right"}
             onSelect={(selectedItem, index) => {}}
             buttonTextAfterSelection={(selectedItem, index) => {
+              selectedpayerSide = index;
               return selectedItem;
             }}
             rowTextForSelection={(item, index) => {
@@ -185,6 +205,7 @@ const ShipmentScreen = () => {
             data={submit}
             onSelect={(selectedItem, index) => {}}
             buttonTextAfterSelection={(selectedItem, index) => {
+              selectedPermission = index;
               return selectedItem;
             }}
             rowTextForSelection={(item, index) => {
@@ -208,6 +229,9 @@ const ShipmentScreen = () => {
             <Text style={styles.textStyle}>{insides}</Text>
             <Text style={styles.textStyle}>standard</Text>
           </View>
+          <TouchableOpacity onPress={fetchApi}>
+            <Text>click here</Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </Screen>

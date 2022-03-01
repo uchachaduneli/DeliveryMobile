@@ -4,10 +4,9 @@ import {
   Text,
   StyleSheet,
   ScrollView,
-  FlatList,
   TouchableOpacity,
-  Alert,
   useWindowDimensions,
+  TextInput,
 } from "react-native";
 import Screen from "./Screen";
 import axios from "axios";
@@ -15,6 +14,8 @@ import { BASE_URL } from "../consts/Api";
 import { TabView, SceneMap, TabBar } from "react-native-tab-view";
 import ShipmentScreen from "./ShipmentScreen";
 import { WIDTH, COLOR } from "../consts/Global";
+import SelectDropdown from "react-native-select-dropdown";
+import { AntDesign } from "@expo/vector-icons";
 
 const identificationCode = "საიდენტიფიკაციო კოდი:";
 const name = "დასახელება:";
@@ -25,6 +26,22 @@ const phone = "ტელეფონი:";
 const print = "ბეჭდვა";
 const refuse = "უარი";
 let selectedObj = {};
+
+const weight = "წონა";
+const Price = "ფასი";
+const quantity = "რაოდენობა";
+const courier = "გადამტანი: ";
+const date = "თარიღი: ";
+const tariff = "ტარიფი: ";
+const operator = "ოპერატორი: ";
+const notice = "შენიშვნა: ";
+const insides = "შიგთავსი: ";
+const money = ["ინვოისი", "ქეში", "ბარათი"];
+const payerList = ["გამგზავნი", "მიმღები", "მესამე პირი"];
+const submit = ["არ არის მოთხოვნა", "ელექტრონული დასტური", "მიტანით დასტური"];
+let selectedCash;
+let selectedpayerSide;
+let selectedPermission;
 
 const FirstRoute = () => (
   <ScrollView showsVerticalScrollIndicator={false}>
@@ -75,49 +92,280 @@ const SecondRoute = () => (
     <View style={styles.compView}>
       <Text style={styles.identificationTextStyle}>{identificationCode}</Text>
       <Text style={styles.identificationCodeStyle}>
-        {selectedObj.senderIdentNumber}
+        {selectedObj.receiverIdentNumber}
       </Text>
       {/*</View>*/}
       <View style={styles.separator} />
 
       <Text style={styles.identificationTextStyle}>{name}</Text>
       <Text style={styles.identificationCodeStyle}>
-        {selectedObj.senderName}
+        {selectedObj.receiverName}
       </Text>
       <View style={styles.separator} />
 
       <Text style={styles.identificationTextStyle}>{senderCity}</Text>
       <Text style={styles.identificationCodeStyle}>
-        {selectedObj.senderCity.name}
+        {selectedObj.receiverCity.name}
       </Text>
       <View style={styles.separator} />
 
       <Text style={styles.identificationTextStyle}>{address}</Text>
       <Text style={styles.identificationCodeStyle}>
-        {selectedObj.senderAddress}
+        {selectedObj.receiverAddress}
       </Text>
       <View style={styles.separator} />
 
       <Text style={styles.identificationTextStyle}>{senderContactPerson}</Text>
       <Text style={styles.identificationCodeStyle}>
-        {selectedObj.senderContactPerson}
+        {selectedObj.receiverContactPerson}
       </Text>
 
       <View style={styles.separator} />
 
       <Text style={styles.identificationTextStyle}>{phone}</Text>
       <Text style={styles.identificationCodeStyle}>
-        {selectedObj.senderPhone}
+        {selectedObj.receiverPhone}
       </Text>
       <View style={styles.separator} />
     </View>
   </ScrollView>
 );
 
-const ThirdRoute = () => (
-  // <View style={{ flex: 1, backgroundColor: "#3ab74b" }} />
-  <ShipmentScreen />
-);
+const ThirdRoute = () => {
+  const [Weight, onChangeWeight] = useState("" + selectedObj.weight);
+  const [count, onChangeCount] = useState("" + selectedObj.count);
+  const [price, onChangePrice] = useState("" + selectedObj.totalPrice);
+
+  const fetchApi = async () => {
+    console.log(
+      "bazidan wamogebuli ",
+      "count",
+      count,
+      "weigh ",
+      Weight,
+      "price",
+      price
+    );
+    await axios
+      .get(
+        "http://ec2-16-170-252-161.eu-north-1.compute.amazonaws.com:8080/parcel/4"
+      )
+      .then(function (response) {
+        console.log(response.data.totalPrice);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
+  const Save = async () => {
+    console.log(
+      "gagzavnis win ",
+      "count",
+      count,
+      "weigh ",
+      Weight,
+      "price",
+      price
+    );
+
+    console.log("cash - ", selectedCash);
+
+    axios
+      .put(
+        "http://ec2-16-170-252-161.eu-north-1.compute.amazonaws.com:8080/parcel/" +
+          selectedObj.id,
+        {
+          id: selectedObj.id,
+          count: count,
+          weight: Weight,
+          payerSide: selectedpayerSide,
+          totalPrice: price,
+          paymentType: selectedCash,
+          status: { id: selectedObj.status.id },
+          // Object: selectedObj,
+        }
+      )
+      .then((res) => {
+        // console.log("response -> ", res.data.id);
+        // onChangeWeight("");
+        // onChangeNumber("");
+        // onChangePrice("");
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+      });
+  };
+
+  // console.log("asd - ", res.data);
+
+  return (
+    <Screen>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.container}>
+          <View style={styles.ViewInpTop}>
+            <View style={styles.innerView}>
+              <Text style={styles.textStyle}>{weight}</Text>
+              <TextInput
+                style={styles.inputView}
+                onChangeText={(text) => {
+                  onChangeWeight(text);
+                }}
+                value={Weight}
+                placeholder="25.5"
+                textAlign="center"
+                keyboardType="numeric"
+              />
+            </View>
+            <View style={styles.innerView}>
+              <Text style={styles.textStyle}>{quantity}</Text>
+              <TextInput
+                style={styles.inputView}
+                onChangeText={onChangeCount}
+                value={count}
+                placeholder="4"
+                textAlign="center"
+                keyboardType="numeric"
+              />
+            </View>
+          </View>
+
+          <View style={styles.ViewInp}>
+            <View style={styles.innerView}>
+              <Text style={styles.textStyle}>{Price}</Text>
+              <TextInput
+                style={styles.inputView}
+                onChangeText={onChangePrice}
+                value={price}
+                placeholder="25.35"
+                textAlign="center"
+                keyboardType="numeric"
+              />
+            </View>
+            <View style={styles.innerView}>
+              <SelectDropdown
+                defaultButtonText="ქეში"
+                data={money}
+                buttonStyle={{
+                  borderRadius: 6,
+                }}
+                renderDropdownIcon={(isOpened) => {
+                  return (
+                    <AntDesign
+                      name={isOpened ? "caretup" : "caretdown"}
+                      color={"#444"}
+                      size={14}
+                    />
+                  );
+                }}
+                dropdownIconPosition={"right"}
+                onSelect={(selectedItem, index) => {}}
+                buttonTextAfterSelection={(selectedItem, index) => {
+                  // index === 0 ? selectedCash : (selectedCash = index);
+                  selectedCash = index + 1;
+                  return selectedItem;
+                }}
+                rowTextForSelection={(item, index) => {
+                  return item;
+                }}
+              />
+            </View>
+          </View>
+
+          <View style={styles.ViewInp}>
+            <View style={styles.innerView}>
+              <Text style={styles.textStyle}>{courier}</Text>
+              <Text> aq curieris saxeli </Text>
+            </View>
+          </View>
+          <View style={styles.date}>
+            <Text style={styles.textStyle}>{date}</Text>
+            <Text style={styles.textStyle}>date</Text>
+          </View>
+
+          <SelectDropdown
+            defaultButtonText="მიმღები"
+            data={payerList}
+            buttonStyle={{
+              width: "100%",
+              borderRadius: 6,
+              marginTop: 30,
+            }}
+            renderDropdownIcon={(isOpened) => {
+              return (
+                <AntDesign
+                  name={isOpened ? "caretup" : "caretdown"}
+                  color={"#444"}
+                  size={14}
+                />
+              );
+            }}
+            dropdownIconPosition={"right"}
+            onSelect={(selectedItem, index) => {}}
+            buttonTextAfterSelection={(selectedItem, index) => {
+              selectedpayerSide = index + 1;
+              console.log("pay - ", selectedpayerSide);
+              return selectedItem;
+            }}
+            rowTextForSelection={(item, index) => {
+              return item;
+            }}
+          />
+          <SelectDropdown
+            defaultButtonText="არ არის მოთხოვნა"
+            buttonStyle={{
+              width: "100%",
+              borderRadius: 6,
+              marginTop: 15,
+            }}
+            renderDropdownIcon={(isOpened) => {
+              return (
+                <AntDesign
+                  name={isOpened ? "caretup" : "caretdown"}
+                  color={"#444"}
+                  size={14}
+                />
+              );
+            }}
+            data={submit}
+            onSelect={(selectedItem, index) => {}}
+            buttonTextAfterSelection={(selectedItem, index) => {
+              selectedPermission = index + 1;
+              return selectedItem;
+            }}
+            rowTextForSelection={(item, index) => {
+              return item;
+            }}
+          />
+          <View style={styles.tariff}>
+            <Text style={styles.textStyle}>{tariff}</Text>
+            <Text style={styles.textStyle}>standard</Text>
+          </View>
+
+          <View style={styles.tariff}>
+            <Text style={styles.textStyle}>{operator}</Text>
+            <Text style={styles.textStyle}>standard</Text>
+          </View>
+          <View style={styles.tariff}>
+            <Text style={styles.textStyle}>{notice}</Text>
+            <Text style={styles.textStyle}>{selectedObj.comment}</Text>
+          </View>
+          <View style={[styles.tariff, { paddingBottom: 15 }]}>
+            <Text style={styles.textStyle}>{insides}</Text>
+            <Text style={styles.textStyle}>{selectedObj.content}</Text>
+          </View>
+          <TouchableOpacity onPress={fetchApi}>
+            <Text>click here</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={Save}>
+            <Text>send data</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    </Screen>
+  );
+};
 
 const renderScene = SceneMap({
   first: FirstRoute,
@@ -234,5 +482,58 @@ const styles = StyleSheet.create({
     paddingBottom: 30,
     // backgroundColor: 'black'
     // backgroundColor: "blue",
+  },
+
+  inputView: {
+    borderRadius: 4,
+    width: WIDTH / 5,
+    height: 30,
+    borderColor: COLOR.DARKBLUE,
+    borderWidth: 1,
+  },
+  viewOfRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "90%",
+    paddingHorizontal: 20,
+  },
+  dropDownStyle: {
+    width: 100,
+    backgroundColor: "yellow",
+  },
+  textStyle: {
+    marginRight: 5,
+    fontSize: 16,
+  },
+  ViewInp: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginTop: 30,
+  },
+  ViewInpTop: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  innerView: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  date: {
+    alignItems: "center",
+    flexDirection: "row",
+    marginTop: 15,
+  },
+  tariff: {
+    alignItems: "center",
+    flexDirection: "row",
+    marginTop: 30,
+  },
+
+  container: {
+    flex: 1,
+
+    marginTop: 20,
   },
 });

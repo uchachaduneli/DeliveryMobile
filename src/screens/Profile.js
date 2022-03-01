@@ -4,15 +4,13 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Dimensions,
-  ScrollView,
 } from "react-native";
 import Screen from "./Screen";
 // import Constants from "expo-constants";
 // import HomeScreen from "./HomeScreen";
 import { useContext } from "react";
 import { UserInfoContext } from "../Context/UserInfoContext";
-// import { storeUserData, getUserDataByKey } from "../consts/Helper";
+import { storeUserData, getUserDataByKey } from "../consts/Helper";
 import { WIDTH } from "../consts/Global";
 
 const Profile = () => {
@@ -26,7 +24,8 @@ const Profile = () => {
           <View style={styles.userView}>
             <Text style={styles.userText}>მომხმარებელი: </Text>
             {/*<Text style={styles.userName}> {user.UserInfo.sub} </Text>*/}
-            {/*<Text style={styles.userName}> {storeUserData()} </Text>*/}
+
+            {/*<Text style={styles.userName}> {getUserDataByKey(user_id)} </Text>*/}
           </View>
           <View style={styles.separator} />
           <Text style={[styles.userText, { marginTop: 30 }]}>UserName: </Text>

@@ -23,6 +23,7 @@ const tariff = "ტარიფი: ";
 const operator = "ოპერატორი: ";
 const notice = "შენიშვნა: ";
 const insides = "შიგთავსი: ";
+const money = ["ქეში", "ბარათი"];
 const payerList = ["გამგზავნი", "მიმღები", "მესამე პირი"];
 const submit = ["არ არის მოთხოვნა", "ელექტრონული დასტური", "მიტანით დასტური"];
 let selectedCash;
@@ -35,20 +36,16 @@ const ShipmentScreen = () => {
   const [price, onChangePrice] = useState(null);
 
   const fetchApi = async () => {
-    // await axios
-    //   .put(
-    //     "http://ec2-16-170-252-161.eu-north-1.compute.amazonaws.com:8080/parcel/4\n",
-    //     data
-    //   )
-    //   .then((res) => {
-    //     setData(res.data);
-    //     onChangeWeight("");
-    //     onChangeNumber("");
-    //     onChangePrice("");
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //   });
+    axios
+      .get(
+        "http://ec2-16-170-252-161.eu-north-1.compute.amazonaws.com:8080/parcel/4"
+      )
+      .then(function (response) {
+        console.log(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
 
   useEffect(() => {
@@ -121,7 +118,7 @@ const ShipmentScreen = () => {
             <View style={styles.innerView}>
               <SelectDropdown
                 defaultButtonText="ქეში"
-                data={payerList}
+                data={money}
                 buttonStyle={{
                   borderRadius: 6,
                 }}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -7,6 +7,7 @@ import {
   Dimensions,
   FlatList,
   TouchableOpacity,
+  RefreshControl,
   Alert,
 } from "react-native";
 import Screen from "./Screen";
@@ -14,6 +15,7 @@ import axios from "axios";
 import { BASE_URL } from "../consts/Api";
 import { WIDTH, HEIGHT, COLOR } from "../consts/Global";
 import ReceivedScreen from "./ReceivedScreen";
+import { useFocusEffect, useIsFocused } from "@react-navigation/native";
 
 const address = "მისამართი";
 const naming = "დასახელება";
@@ -24,17 +26,43 @@ const taken = "აღებული";
 
 export default function CustomerInfoScreen({ navigation, route }) {
   const [data, setData] = useState();
-  useEffect(() => {
+  const [refreshing, setRefreshing] = React.useState(false);
+  const isFocused = useIsFocused();
+
+  const wait = (timeout) => {
+    return new Promise((resolve) => setTimeout(resolve, timeout));
+  };
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    //  wait(200).then(() => setRefreshing(false));
+    // Alert.alert("asdasd");
+    loadData();
+    setRefreshing(false);
+  }, []);
+
+  const loadData = () => {
     axios
       .get(BASE_URL + "/parcel/userParcels/{userId}?status=4")
       .then(function (response) {
         setData(response.data);
-        console.log(response.data);
+        // console.log(response.data);
       })
       .catch(function (error) {
         console.log(error);
       });
-  }, []);
+  };
+  useFocusEffect(
+    useCallback(() => {
+      loadData();
+      // console.log("asd");
+    }, [])
+  );
+
+  // useEffect(() => {
+  //   loadData();
+  //   console.log("12123");
+  // }, []);
 
   // console.log("data?.items - ", data?.items);
 
@@ -71,15 +99,20 @@ export default function CustomerInfoScreen({ navigation, route }) {
         </View>
 
         <View style={styles.ViewsStyle}>
-          <Text>{naming}</Text>
+          <Text style={styles.TextsStyle}>{naming}</Text>
         </View>
         <View style={styles.ViewsStyle}>
-          <Text>{operator}</Text>
+          <Text style={styles.TextsStyle}>{operator}</Text>
         </View>
       </View>
       <View style={{ height: "85%", flexDirection: "row" }}>
         {/*// TODO: list*/}
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+        >
           <FlatList
             style={styles.flatListStyle}
             data={data?.items}
@@ -104,14 +137,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   ViewsStyle: {
-    borderWidth: 0.5,
+    borderRightWidth: 0.5,
+    borderColor: COLOR.WHITE,
     height: HEIGHT / 16,
     alignItems: "center",
     justifyContent: "center",
     width: WIDTH / 3,
   },
   TextsStyle: {
-    color: "black",
+    color: "#fff",
   },
   flatListStyle: {
     // borderWidth: 0.5,

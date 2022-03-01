@@ -4,7 +4,11 @@ export function storeUserData(userObj) {
   console.log("Started Storing User Data");
   try {
     AsyncStorage.setItem("user_id", JSON.stringify(userObj.user.id)); //JSON.stringify(decoded));
-    AsyncStorage.setItem("user_desc", JSON.stringify(userObj.sub)); //JSON.stringify(decoded));
+    AsyncStorage.setItem("data", JSON.stringify(userObj));
+    AsyncStorage.setItem(
+      "user_desc",
+      JSON.stringify(userObj.sub).replaceAll('"', "")
+    ); //JSON.stringify(decoded));
     AsyncStorage.setItem(
       "user_warehouse",
       JSON.stringify(userObj.user.warehouseId)

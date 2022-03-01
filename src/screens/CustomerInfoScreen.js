@@ -1,42 +1,30 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import {
   View,
   Text,
   StyleSheet,
   ScrollView,
-  Dimensions,
   FlatList,
   TouchableOpacity,
   RefreshControl,
-  Alert,
 } from "react-native";
 import Screen from "./Screen";
 import axios from "axios";
 import { BASE_URL } from "../consts/Api";
 import { WIDTH, HEIGHT, COLOR } from "../consts/Global";
-import ReceivedScreen from "./ReceivedScreen";
 import { useFocusEffect, useIsFocused } from "@react-navigation/native";
 
 const address = "მისამართი";
 const naming = "დასახელება";
 const operator = "ოპერატორი";
-const newOne = "ახალი";
-const seen = "ნანახი";
-const taken = "აღებული";
 
 export default function CustomerInfoScreen({ navigation, route }) {
   const [data, setData] = useState();
   const [refreshing, setRefreshing] = React.useState(false);
   const isFocused = useIsFocused();
 
-  const wait = (timeout) => {
-    return new Promise((resolve) => setTimeout(resolve, timeout));
-  };
-
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-    //  wait(200).then(() => setRefreshing(false));
-    // Alert.alert("asdasd");
     loadData();
     setRefreshing(false);
   }, []);
@@ -55,39 +43,30 @@ export default function CustomerInfoScreen({ navigation, route }) {
   useFocusEffect(
     useCallback(() => {
       loadData();
-      // console.log("asd");
     }, [])
   );
 
-  // useEffect(() => {
-  //   loadData();
-  //   console.log("12123");
-  // }, []);
-
-  // console.log("data?.items - ", data?.items);
-
   const RenderItem = ({ item, index }) => {
-    // console.log("item - ", item.author);
-
     return (
-      <TouchableOpacity
-        style={styles.flatListTouchStyle}
-        onPress={() => {
-          navigation.navigate("InfoDetail", {
-            selectedObj: data?.items[index],
-          });
-        }}
-      >
-        <Text style={styles.flatListTextStyle}>{item.senderAddress}</Text>
+      <View>
+        <TouchableOpacity
+          style={styles.flatListTouchStyle}
+          onPress={() => {
+            navigation.navigate("InfoDetail", {
+              selectedObj: data?.items[index],
+            });
+          }}
+        >
+          <Text style={styles.flatListTextStyle}>{item.senderAddress}</Text>
 
-        <View style={styles.emptyView}></View>
+          <Text style={styles.flatListTextStyle}>{item.senderName}</Text>
 
-        <Text style={styles.flatListTextStyle}>{item.senderName}</Text>
-
-        <Text style={[styles.flatListTextStyle, { paddingRight: 5 }]}>
-          {item.author?.name + " " + item.author?.lastName}
-        </Text>
-      </TouchableOpacity>
+          <Text style={[styles.flatListTextStyle]}>
+            {item.author?.name + " " + item.author?.lastName}
+          </Text>
+        </TouchableOpacity>
+        <View style={styles.separator} />
+      </View>
     );
   };
 
@@ -101,7 +80,7 @@ export default function CustomerInfoScreen({ navigation, route }) {
         <View style={styles.ViewsStyle}>
           <Text style={styles.TextsStyle}>{naming}</Text>
         </View>
-        <View style={styles.ViewsStyle}>
+        <View style={[styles.ViewsStyle, { borderRightWidth: 0 }]}>
           <Text style={styles.TextsStyle}>{operator}</Text>
         </View>
       </View>
@@ -131,9 +110,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     backgroundColor: COLOR.DARKBLUE,
     justifyContent: "space-between",
-    // paddingHorizontal: 20,
-    // marginTop: 10,
-    // height: 40,
     alignItems: "center",
   },
   ViewsStyle: {
@@ -148,9 +124,10 @@ const styles = StyleSheet.create({
     color: "#fff",
   },
   flatListStyle: {
-    // borderWidth: 0.5,
+    marginTop: 15,
     width: WIDTH,
     flexDirection: "row",
+
     // paddingBottom: 20,
   },
 
@@ -159,25 +136,23 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 10,
-    borderWidth: 1,
-    // height: 30,
+    // marginTop: 10,
+    borderRightWidth: 1,
   },
 
   flatListTextStyle: {
     fontSize: 15,
     color: "black",
-    width: WIDTH / 3,
+    width: WIDTH / 3.1,
     textAlign: "center",
-    marginTop: 5,
-    marginBottom: 5,
+    paddingRight: 5,
+    paddingLeft: 5,
   },
 
   footerView: {
     flexDirection: "row",
     justifyContent: "space-between",
     textAlign: "center",
-    // height: "7%",
     flex: 1,
   },
 
@@ -186,15 +161,17 @@ const styles = StyleSheet.create({
     backgroundColor: COLOR.DARKBLUE,
     width: WIDTH / 3,
     height: "100%",
-    // borderWidth: 1,
   },
   footerButtonText: {
     textAlign: "center",
     fontSize: 16,
   },
-  emptyView: {
-    // width: 2,
-    // height: 50,
-    backgroundColor: "black",
+  separator: {
+    marginTop: 15,
+    borderBottomColor: "grey",
+    // borderBottomColor: "azure",
+    borderBottomWidth: 1,
+    marginBottom: 15,
+    width: WIDTH,
   },
 });

@@ -20,8 +20,8 @@ export default function TrackingCodeBottomNavigator() {
       }}
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: "#fff",
-        tabBarInactiveTintColor: "#000",
+        tabBarActiveTintColor: "yellow",
+        tabBarInactiveTintColor: "#fff",
         tabBarStyle: {
           backgroundColor: COLOR.DARKBLUE,
 

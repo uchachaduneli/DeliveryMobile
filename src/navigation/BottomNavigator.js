@@ -17,11 +17,11 @@ export default function BottomTabNavigator() {
       }}
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: "#fff",
-        tabBarInactiveTintColor: "#000",
+        tabBarActiveTintColor: "yellow",
+        tabBarInactiveTintColor: "#fff",
+        // tabBarActiveBackgroundColor: "green",
         tabBarStyle: {
           backgroundColor: COLOR.DARKBLUE,
-
           height: 40,
           paddingBottom: 12,
         },
@@ -38,7 +38,7 @@ export default function BottomTabNavigator() {
         }}
         tabStyle={{
           borderRightWidth: 1,
-          borderColor: "green",
+          // borderColor: "green",
         }}
         component={CustomerInfoScreen}
       />

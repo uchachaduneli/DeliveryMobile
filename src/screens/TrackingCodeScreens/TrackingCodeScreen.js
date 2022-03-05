@@ -142,7 +142,7 @@ const TrackingCodeScreen = () => {
               style={styles.inputViews}
               onChangeText={setRelationUnion}
               value={relationUnion}
-              placeholder="დეიდა"
+              placeholder="_"
               textAlign="center"
               keyboardType="numeric"
             />

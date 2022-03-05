@@ -71,8 +71,8 @@ const LogInScreen = ({ navigation }) => {
             {/*<Image source={require('./src /assets/images/logo.png')}*/}
             {/*       style={{width: 40, height: 40,}}/>*/}
             <Image
-              source={{ uri: "https://reactjs.org/logo-og.png" }}
-              style={{ width: 60, height: 60, marginBottom: 50 }}
+              source={require('../images/logo.png')}
+              style={{ width: 150, height: 70, marginBottom: 50 }}
             />
           </View>
 

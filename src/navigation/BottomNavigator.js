@@ -5,6 +5,8 @@ import Profile from "../screens/Profile";
 import { Entypo } from "@expo/vector-icons";
 import CustomerInfoScreen from "../screens/CustomerInfoScreen";
 import { COLOR } from "../consts/Global";
+import PickedUpTabScreen from "../screens/ParcelInfoScreens/PickedUpTabScreen";
+import seenTabScreen from "../screens/ParcelInfoScreens/seenTabScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -47,7 +49,7 @@ export default function BottomTabNavigator() {
         options={{
           tabBarIcon: ({ color, size }) => <Entypo />,
         }}
-        component={Profile}
+        component={PickedUpTabScreen}
       />
 
       <Tab.Screen
@@ -55,7 +57,7 @@ export default function BottomTabNavigator() {
         options={{
           tabBarIcon: ({ color, size }) => <Entypo />,
         }}
-        component={Profile}
+        component={seenTabScreen}
       />
     </Tab.Navigator>
   );

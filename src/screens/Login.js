@@ -5,10 +5,7 @@ import {
   View,
   Image,
   TextInput,
-  Button,
   TouchableOpacity,
-  Dimensions,
-  ScrollView,
   Alert,
 } from "react-native";
 import Screen from "./Screen";

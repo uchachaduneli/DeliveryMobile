@@ -86,6 +86,7 @@ export default function CustomerInfoScreen({ navigation, route }) {
       </View>
       <View style={{ height: "85%", flexDirection: "row" }}>
         {/*// TODO: list*/}
+
         <ScrollView
           showsVerticalScrollIndicator={false}
           refreshControl={
@@ -137,7 +138,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     // marginTop: 10,
-    borderRightWidth: 1,
+    // borderRightWidth: 1,
   },
 
   flatListTextStyle: {

@@ -5,8 +5,6 @@ import Screen from "./Screen";
 import { storeUserData, getUserDataByKey } from "../consts/Helper";
 import { WIDTH } from "../consts/Global";
 
-let userId;
-
 const Profile = () => {
   const [name, setName] = useState();
   const [username, setUsername] = useState();

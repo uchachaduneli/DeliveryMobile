@@ -10,13 +10,30 @@ import {
 import Screen from "./Screen";
 import { WIDTH, HEIGHT, COLOR } from "../consts/Global";
 
-let arr = [1, 2, 3, 4];
+const paperCount = [
+  {
+    id: "1",
+    num: 1,
+  },
+  {
+    id: "2",
+    num: 2,
+  },
+  {
+    id: "3",
+    num: 3,
+  },
+  {
+    id: "4",
+    num: 4,
+  },
+];
 
 const Counter = () => {
   const RenderItem = ({ item }) => {
     return (
       <TouchableOpacity style={styles.touch}>
-        <Text style={styles.text}> {arr[item - 1]} </Text>
+        <Text style={styles.text}> {item.num} </Text>
       </TouchableOpacity>
     );
   };
@@ -25,8 +42,9 @@ const Counter = () => {
     <Screen>
       <View style={styles.container}>
         <FlatList
-          data={arr}
+          data={paperCount}
           renderItem={RenderItem}
+          keyExtractor={(item) => item.id}
           contentContainerStyle={styles.listView}
         />
       </View>

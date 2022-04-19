@@ -6,18 +6,21 @@ import { Entypo } from "@expo/vector-icons";
 import CustomerInfoScreen from "../screens/CustomerInfoScreen";
 import { COLOR } from "../consts/Global";
 import PickedUpTabScreen from "../screens/ParcelInfoScreens/PickedUpTabScreen";
-import seenTabScreen from "../screens/ParcelInfoScreens/seenTabScreen";
+import SeenTabScreen from "../screens/ParcelInfoScreens/SeenTabScreen";
 
 const Tab = createBottomTabNavigator();
 
 export default function BottomTabNavigator() {
   return (
     <Tab.Navigator
-      tabBarOptions={{
-        keyboardHidesTabBar: true,
-        // tabBarActiveBackgroundColor: "red",
-      }}
+      // tabBarOptions={
+      //   {
+      //     // tabBarActiveBackgroundColor: "red",
+      //   }
+      // }
       screenOptions={{
+        keyboardHidesTabBar: true,
+
         headerShown: false,
         tabBarActiveTintColor: "yellow",
         tabBarInactiveTintColor: "#fff",
@@ -57,7 +60,7 @@ export default function BottomTabNavigator() {
         options={{
           tabBarIcon: ({ color, size }) => <Entypo />,
         }}
-        component={seenTabScreen}
+        component={SeenTabScreen}
       />
     </Tab.Navigator>
   );

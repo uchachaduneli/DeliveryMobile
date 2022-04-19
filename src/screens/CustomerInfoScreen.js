@@ -65,6 +65,7 @@ export default function CustomerInfoScreen({ navigation, route }) {
             {item.author?.name + " " + item.author?.lastName}
           </Text>
         </TouchableOpacity>
+
         <View style={styles.separator} />
       </View>
     );
@@ -84,23 +85,23 @@ export default function CustomerInfoScreen({ navigation, route }) {
           <Text style={styles.TextsStyle}>{operator}</Text>
         </View>
       </View>
-      <View style={{ height: "85%", flexDirection: "row" }}>
+      <View style={{ flex: 1 }}>
         {/*// TODO: list*/}
 
-        <ScrollView
+        <FlatList
           showsVerticalScrollIndicator={false}
+          style={styles.flatListStyle}
+          data={data?.items}
+          renderItem={RenderItem}
+          keyExtractor={(item) => item.id}
           refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            <RefreshControl
+              enabled={true}
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+            />
           }
-        >
-          <FlatList
-            style={styles.flatListStyle}
-            data={data?.items}
-            renderItem={RenderItem}
-            keyExtractor={(item) => item.id}
-            bounces={false}
-          />
-        </ScrollView>
+        />
       </View>
     </Screen>
   );
@@ -127,9 +128,6 @@ const styles = StyleSheet.create({
   flatListStyle: {
     marginTop: 15,
     width: WIDTH,
-    flexDirection: "row",
-
-    // paddingBottom: 20,
   },
 
   flatListTouchStyle: {
@@ -137,8 +135,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    // marginTop: 10,
-    // borderRightWidth: 1,
   },
 
   flatListTextStyle: {
@@ -170,9 +166,12 @@ const styles = StyleSheet.create({
   separator: {
     marginTop: 15,
     borderBottomColor: "grey",
-    // borderBottomColor: "azure",
     borderBottomWidth: 1,
     marginBottom: 15,
     width: WIDTH,
+  },
+
+  newFlat: {
+    backgroundColor: "pink",
   },
 });

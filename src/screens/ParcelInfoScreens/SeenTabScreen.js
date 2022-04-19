@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { StyleSheet, View, Text } from "react-native";
 
-function seenTabScreen() {
+function SeenTabScreen() {
   return (
     <View>
       <Text>asd</Text>
@@ -11,4 +11,4 @@ function seenTabScreen() {
 
 const styles = StyleSheet.create({});
 
-export default seenTabScreen;
+export default SeenTabScreen;

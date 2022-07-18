@@ -19,7 +19,7 @@ export default function BottomTabNavigator() {
       //   }
       // }
       screenOptions={{
-        keyboardHidesTabBar: true,
+        tabBarHideOnKeyboard: true,
 
         headerShown: false,
         tabBarActiveTintColor: "yellow",

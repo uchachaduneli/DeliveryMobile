@@ -14,11 +14,12 @@ const Tab = createBottomTabNavigator();
 export default function TrackingCodeBottomNavigator() {
   return (
     <Tab.Navigator
-      tabBarOptions={{
-        keyboardHidesTabBar: true,
-        // tabBarActiveBackgroundColor: "red",
-      }}
+      // tabBarOptions={{
+      //
+      //   // tabBarActiveBackgroundColor: "red",
+      // }}
       screenOptions={{
+        tabBarHideOnKeyboard: true,
         headerShown: false,
         tabBarActiveTintColor: "yellow",
         tabBarInactiveTintColor: "#fff",

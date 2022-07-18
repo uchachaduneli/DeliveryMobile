@@ -2,16 +2,14 @@ import Constants from "expo-constants";
 import React from "react";
 import { EvilIcons } from "@expo/vector-icons";
 import {
+  ScrollView,
   StyleSheet,
-  SafeAreaView,
-  View,
   Text,
   TouchableOpacity,
-  Dimensions,
-  ScrollView,
+  View,
 } from "react-native";
 import Screen from "./Screen";
-import { WIDTH, COLOR, HEIGHT } from "../consts/Global";
+import { COLOR, HEIGHT, WIDTH } from "../consts/Global";
 
 const HomeScreen = ({ navigation, route }) => {
   const calls = "გამოძახებები";

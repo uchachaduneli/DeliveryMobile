@@ -1,18 +1,23 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import {
+  Image,
   StyleSheet,
   Text,
-  View,
-  Image,
   TextInput,
   TouchableOpacity,
-  Alert,
+  TouchableWithoutFeedback,
+  View,
+  Keyboard,
+  Platform,
+  KeyboardAvoidingView,
+  ScrollView,
 } from "react-native";
 import Screen from "./Screen";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import { BASE_URL } from "../consts/Api";
 import { storeUserData } from "../consts/Helper";
+import KeybordAvoidingWrapper from "../components/KeybordAvoidingWrapper";
 
 const LogInScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -40,58 +45,54 @@ const LogInScreen = ({ navigation }) => {
   };
 
   return (
-    <Screen>
+    // <Screen style={{ backgroundColor: "pink" }}>
+    <KeybordAvoidingWrapper>
       <View style={styles.container}>
-        <View style={styles.authorizationView}>
-          <View>
-            <Image
-              source={require("../images/logo.png")}
-              style={{ width: 150, height: 70, marginBottom: 50 }}
-            />
-          </View>
+        {/*<View style={styles.authorizationView}>*/}
+        <Image
+          source={require("../images/logo.png")}
+          style={{ width: 150, height: 70, marginBottom: 50 }}
+        />
 
-          <View style={styles.inputView}>
-            <TextInput
-              style={styles.TextInput}
-              placeholder="მომხმარებელი"
-              placeholderTextColor="#003f5c"
-              keyboardType="default"
-              autoCorrect={false}
-              autoCapitalize="none"
-              errorMessage="please enter a valid email"
-              onChangeText={(email) => setEmail(email)}
-            />
-          </View>
-
-          <View style={styles.inputView}>
-            <TextInput
-              style={styles.TextInput}
-              placeholder="პაროლი"
-              placeholderTextColor="#003f5c"
-              secureTextEntry={true}
-              errorMessage="please enter a valid password"
-              onChangeText={(password) => setPassword(password)}
-            />
-          </View>
-          <TouchableOpacity
-            style={styles.loginBtn}
-            onPressIn={() => {
-              postDataUsingSimplePostCall();
-            }}
-          >
-            <Text style={styles.loginText}>შესვლა</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={{ marginTop: 30 }}>
-            <Text style={styles.forgot_button}>დაგავიწყდა პაროლი ?</Text>
-          </TouchableOpacity>
-
-          {/*<Text style={{ backgroundColor: "pink", marginTop: 30, width: 50 }}>*/}
-          {/*  {username}*/}
-          {/*</Text>*/}
+        <View style={styles.inputView}>
+          <TextInput
+            style={styles.TextInput}
+            placeholder="მომხმარებელი"
+            placeholderTextColor="#003f5c"
+            keyboardType="default"
+            autoCorrect={false}
+            autoCapitalize="none"
+            errorMessage="please enter a valid email"
+            onChangeText={(email) => setEmail(email)}
+          />
         </View>
+
+        <View style={styles.inputView}>
+          <TextInput
+            style={styles.TextInput}
+            placeholder="პაროლი"
+            placeholderTextColor="#003f5c"
+            secureTextEntry={true}
+            errorMessage="please enter a valid password"
+            onChangeText={(password) => setPassword(password)}
+          />
+        </View>
+        <TouchableOpacity
+          style={styles.loginBtn}
+          onPressIn={() => {
+            postDataUsingSimplePostCall();
+          }}
+        >
+          <Text style={styles.loginText}>შესვლა</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={{ marginTop: 20 }}>
+          <Text style={styles.forgot_button}>დაგავიწყდა პაროლი ?</Text>
+        </TouchableOpacity>
+        {/*</View>*/}
       </View>
-    </Screen>
+    </KeybordAvoidingWrapper>
+    // </Screen>
   );
 };
 
@@ -100,6 +101,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "rgb(255,255,255)",
     paddingHorizontal: 32,
+    alignItems: "center",
+    justifyContent: "center",
   },
 
   authorizationView: {
@@ -107,6 +110,7 @@ const styles = StyleSheet.create({
     // marginTop: 100,
     alignItems: "center",
     justifyContent: "center",
+    // backgroundColor: "pink",
   },
 
   image: {

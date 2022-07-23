@@ -1,27 +1,25 @@
 import React, { useCallback, useState } from "react";
 import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
   FlatList,
-  TouchableOpacity,
   RefreshControl,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import Screen from "./Screen";
 import axios from "axios";
 import { BASE_URL } from "../consts/Api";
-import { WIDTH, HEIGHT, COLOR } from "../consts/Global";
-import { useFocusEffect, useIsFocused } from "@react-navigation/native";
+import { COLOR, HEIGHT, WIDTH } from "../consts/Global";
+import { useFocusEffect } from "@react-navigation/native";
 
 const address = "მისამართი";
 const naming = "დასახელება";
 const operator = "ოპერატორი";
 
-export default function CustomerInfoScreen({ navigation, route }) {
+export default function CustomerInfoScreen({ navigation }) {
   const [data, setData] = useState();
   const [refreshing, setRefreshing] = React.useState(false);
-  const isFocused = useIsFocused();
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -59,7 +57,11 @@ export default function CustomerInfoScreen({ navigation, route }) {
         >
           <Text style={styles.flatListTextStyle}>{item.senderAddress}</Text>
 
+          <View style={styles.verticalSeparator} />
+
           <Text style={styles.flatListTextStyle}>{item.senderName}</Text>
+
+          <View style={styles.verticalSeparator} />
 
           <Text style={[styles.flatListTextStyle]}>
             {item.author?.name + " " + item.author?.lastName}
@@ -126,7 +128,6 @@ const styles = StyleSheet.create({
     color: "#fff",
   },
   flatListStyle: {
-    marginTop: 15,
     width: WIDTH,
   },
 
@@ -164,11 +165,17 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   separator: {
-    marginTop: 15,
+    // marginTop: 15,
     borderBottomColor: "grey",
     borderBottomWidth: 1,
-    marginBottom: 15,
+    // marginBottom: 15,
     width: WIDTH,
+  },
+
+  verticalSeparator: {
+    borderColor: "grey",
+    borderWidth: 0.5,
+    height: HEIGHT / 11,
   },
 
   newFlat: {

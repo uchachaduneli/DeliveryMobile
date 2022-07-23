@@ -7,6 +7,9 @@ import {
   Dimensions,
   ScrollView,
   TouchableOpacity,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import Profile from "../Profile";
 import Screen from "../Screen";
@@ -35,131 +38,139 @@ const TrackingCodeScreen = () => {
 
   return (
     <Screen>
-      <ScrollView>
-        <View style={styles.container}>
-          <View>
-            <Text style={[styles.TextStyle, { marginBottom: 10 }]}>
-              {tracking}
-            </Text>
-            <TextInput
-              style={styles.inputView}
-              onChangeText={setTrackingCode}
-              value={trackingCode}
-              textAlign="center"
-              keyboardType="numeric"
-            />
-          </View>
+      <KeyboardAvoidingView behavior={"height"}>
+        <ScrollView>
+          {/*<TouchableWithoutFeedback*/}
+          {/*  onPress={() => {*/}
+          {/*    Keyboard.dismiss();*/}
+          {/*  }}*/}
+          {/*>*/}
+          <View style={styles.container}>
+            <View>
+              <Text style={[styles.TextStyle, { marginBottom: 10 }]}>
+                {tracking}
+              </Text>
+              <TextInput
+                style={styles.inputView}
+                onChangeText={setTrackingCode}
+                value={trackingCode}
+                textAlign="center"
+                keyboardType="numeric"
+              />
+            </View>
 
-          <View style={styles.viewAndInpOfCode}>
-            <Text style={styles.TextStyle}>{Code}</Text>
-            <SelectDropdown
-              defaultButtonText="OK"
-              buttonStyle={{
-                width: "65%",
-                borderRadius: 4,
-                height: 40,
-              }}
-              renderDropdownIcon={(isOpened) => {
-                return (
-                  <AntDesign
-                    name={isOpened ? "caretup" : "caretdown"}
-                    color={"#444"}
-                    size={14}
-                  />
-                );
-              }}
-              // dropdownStyle={{ backgroundColor: "blue" }}
-              data={submit}
-              onSelect={(selectedItem, index) => {
-                console.log(selectedItem, index);
-              }}
-              buttonTextAfterSelection={(selectedItem, index) => {
-                return selectedItem;
-              }}
-              rowTextForSelection={(item, index) => {
-                return item;
-              }}
-            />
-          </View>
+            <View style={styles.viewAndInpOfCode}>
+              <Text style={styles.TextStyle}>{Code}</Text>
+              <SelectDropdown
+                defaultButtonText="OK"
+                buttonStyle={{
+                  width: "65%",
+                  borderRadius: 4,
+                  height: 40,
+                }}
+                renderDropdownIcon={(isOpened) => {
+                  return (
+                    <AntDesign
+                      name={isOpened ? "caretup" : "caretdown"}
+                      color={"#444"}
+                      size={14}
+                    />
+                  );
+                }}
+                // dropdownStyle={{ backgroundColor: "blue" }}
+                data={submit}
+                onSelect={(selectedItem, index) => {
+                  console.log(selectedItem, index);
+                }}
+                buttonTextAfterSelection={(selectedItem, index) => {
+                  return selectedItem;
+                }}
+                rowTextForSelection={(item, index) => {
+                  return item;
+                }}
+              />
+            </View>
 
-          <View style={styles.viewAndInpOfCode}>
-            <Text style={styles.TextStyle}>{lowerCode}</Text>
-            <SelectDropdown
-              defaultButtonText="OK"
-              buttonStyle={{
-                width: "65%",
-                borderRadius: 4,
-                height: 40,
-              }}
-              renderDropdownIcon={(isOpened) => {
-                return (
-                  <AntDesign
-                    name={isOpened ? "caretup" : "caretdown"}
-                    color={"#444"}
-                    size={14}
-                  />
-                );
-              }}
-              data={Relationship}
-              onSelect={(selectedItem, index) => {
-                console.log(selectedItem, index);
-              }}
-              buttonTextAfterSelection={(selectedItem, index) => {
-                return selectedItem;
-              }}
-              rowTextForSelection={(item, index) => {
-                return item;
-              }}
-            />
-          </View>
-          <View style={styles.innerView}>
-            <Text style={styles.TextStyle}>{reciever}</Text>
-            <TextInput
-              style={styles.inputViews}
-              onChangeText={setCode}
-              value={code}
-              placeholder="სახელი გვარი"
-              textAlign="center"
-              keyboardType="numeric"
-            />
-          </View>
+            <View style={styles.viewAndInpOfCode}>
+              <Text style={styles.TextStyle}>{lowerCode}</Text>
+              <SelectDropdown
+                defaultButtonText="OK"
+                buttonStyle={{
+                  width: "65%",
+                  borderRadius: 4,
+                  height: 40,
+                }}
+                renderDropdownIcon={(isOpened) => {
+                  return (
+                    <AntDesign
+                      name={isOpened ? "caretup" : "caretdown"}
+                      color={"#444"}
+                      size={14}
+                    />
+                  );
+                }}
+                data={Relationship}
+                onSelect={(selectedItem, index) => {
+                  console.log(selectedItem, index);
+                }}
+                buttonTextAfterSelection={(selectedItem, index) => {
+                  return selectedItem;
+                }}
+                rowTextForSelection={(item, index) => {
+                  return item;
+                }}
+              />
+            </View>
+            <View style={styles.innerView}>
+              <Text style={styles.TextStyle}>{reciever}</Text>
+              <TextInput
+                style={styles.inputViews}
+                onChangeText={setCode}
+                value={code}
+                placeholder="სახელი გვარი"
+                textAlign="center"
+                keyboardType="numeric"
+              />
+            </View>
 
-          <View style={styles.innerView}>
-            <Text style={styles.TextStyle}>{idNumber}</Text>
-            <TextInput
-              style={styles.inputViews}
-              onChangeText={setId}
-              value={id}
-              placeholder="25484850985"
-              textAlign="center"
-              keyboardType="numeric"
-            />
-          </View>
+            <View style={styles.innerView}>
+              <Text style={styles.TextStyle}>{idNumber}</Text>
+              <TextInput
+                style={styles.inputViews}
+                onChangeText={setId}
+                value={id}
+                placeholder="25484850985"
+                textAlign="center"
+                keyboardType="numeric"
+              />
+            </View>
 
-          <View style={styles.innerView}>
-            <Text style={styles.TextStyle}>{relativeUnion}</Text>
-            <TextInput
-              style={styles.inputViews}
-              onChangeText={setRelationUnion}
-              value={relationUnion}
-              placeholder="_"
-              textAlign="center"
-              keyboardType="numeric"
-            />
-          </View>
+            <View style={styles.innerView}>
+              <Text style={styles.TextStyle}>{relativeUnion}</Text>
+              <TextInput
+                style={styles.inputViews}
+                onChangeText={setRelationUnion}
+                value={relationUnion}
+                placeholder="_"
+                textAlign="center"
+                keyboardType="numeric"
+              />
+            </View>
 
-          <View style={styles.explanationViewStyle}>
-            <Text style={styles.explanationTextStyle}>{explanation}</Text>
-            <TextInput
-              style={styles.inputexplanationView}
-              onChangeText={setExplain}
-              value={explain}
-              multiline={true}
-              placeholder=" ნათესაური კავშირი"
-            />
+            <View style={styles.explanationViewStyle}>
+              <Text style={styles.explanationTextStyle}>{explanation}</Text>
+              <TextInput
+                style={styles.inputexplanationView}
+                onChangeText={setExplain}
+                value={explain}
+                multiline={true}
+                placeholder=" ნათესაური კავშირი"
+              />
+            </View>
           </View>
-        </View>
-      </ScrollView>
+          {/*</TouchableWithoutFeedback>*/}
+        </ScrollView>
+      </KeyboardAvoidingView>
 
       <View style={styles.bottomTouchViewStyle}>
         <TouchableOpacity style={styles.bottomTouchStyle}>
@@ -178,6 +189,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 20,
     marginTop: 15,
+    // backgroundColor: "green",
   },
   inputView: {
     backgroundColor: "#fafafa",

@@ -1,19 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
-  View,
-  Text,
-  StyleSheet,
   ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
   TouchableOpacity,
   useWindowDimensions,
-  TextInput,
+  View,
 } from "react-native";
 import Screen from "./Screen";
 import axios from "axios";
-import { BASE_URL } from "../consts/Api";
-import { TabView, SceneMap, TabBar } from "react-native-tab-view";
-import ShipmentScreen from "./ShipmentScreen";
-import { WIDTH, COLOR } from "../consts/Global";
+import { SceneMap, TabBar, TabView } from "react-native-tab-view";
+import { COLOR, WIDTH } from "../consts/Global";
 import SelectDropdown from "react-native-select-dropdown";
 import { AntDesign } from "@expo/vector-icons";
 
@@ -94,7 +92,6 @@ const SecondRoute = () => (
       <Text style={styles.identificationCodeStyle}>
         {selectedObj.receiverIdentNumber}
       </Text>
-      {/*</View>*/}
       <View style={styles.separator} />
 
       <Text style={styles.identificationTextStyle}>{name}</Text>

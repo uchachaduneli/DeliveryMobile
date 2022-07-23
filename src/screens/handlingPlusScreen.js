@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import {
-  View,
-  Text,
   StyleSheet,
+  Text,
   TextInput,
   TouchableOpacity,
+  View,
 } from "react-native";
 import Screen from "./Screen";
-import { WIDTH, COLOR, HEIGHT } from "../consts/Global";
+import { EvilIcons, MaterialCommunityIcons } from "@expo/vector-icons";
+
+import { COLOR } from "../consts/Global";
+import KeybordAvoidingWrapper from "../components/KeybordAvoidingWrapper";
 
 const barCodeText = "დაანათეთ შტრიხკოდს";
 const add = "  add";
@@ -17,72 +20,100 @@ const okCode = "OK კოდი(მიმღების ხელმოწე�
 const remove = "წაშლა";
 const anotherCode = "სხვა კოდი";
 
-export default function HandlingPlusScreen() {
+export default function HandlingPlusScreen({ navigation }) {
   const [barCode, onChangebarCode] = useState();
+  const [recive, SetReceiver] = useState();
 
   return (
     <Screen>
-      <View style={styles.container}>
-        <Text style={styles.textStyle}>{barCodeText}</Text>
-        <View style={styles.innerView}>
-          <TextInput
-            style={styles.inputView}
-            onChangeText={onChangebarCode}
-            value={barCode}
-            textAlign="center"
-            keyboardType="numeric"
+      <View>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={styles.backButtonStyle}
+        >
+          <MaterialCommunityIcons
+            name="keyboard-backspace"
+            size={30}
+            color="black"
           />
-          <TouchableOpacity style={styles.touchStyle}>
-            <Text style={[styles.textStyle, { color: COLOR.WHITE }]}>
-              {add}
-            </Text>
-          </TouchableOpacity>
-        </View>
+        </TouchableOpacity>
 
-        <View style={styles.betweenComponents}>
-          <Text style={[styles.textStyle, { marginBottom: 10 }]}>
-            {BarCode}
-          </Text>
-          <Text style={[styles.textStyle, {}]}>843058408543080</Text>
-        </View>
-        <View style={styles.betweenComponents}>
-          <Text style={[styles.textStyle, { marginBottom: 10 }]}>
-            {reciever}
-          </Text>
-          <TextInput
-            style={styles.inputViewStyle}
-            onChangeText={onChangebarCode}
-            value={barCode}
-            textAlign="center"
-            keyboardType="numeric"
-          />
-        </View>
-
-        <View style={styles.bottomTouchViewStyle}>
-          <TouchableOpacity style={styles.bottomTouchStyle}>
-            <Text style={styles.touchTextStyle}>{okCode}</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.bottomTouchStyle}>
-            <Text style={styles.touchTextStyle}>{anotherCode}</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.bottomTouchStyle}>
-            <Text style={styles.touchTextStyle}>{remove}</Text>
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("HomeScreen")}
+          style={{
+            width: 40,
+            height: 36,
+            position: "absolute",
+            marginTop: 12,
+            right: 12,
+          }}
+        >
+          <EvilIcons name="close-o" size={37} color="black" />
+        </TouchableOpacity>
       </View>
-      {/*<View style={styles.bottomTouchViewStyle}>*/}
-      {/*  <TouchableOpacity style={styles.bottomTouchStyle}>*/}
-      {/*    <Text style={styles.touchTextStyle}>{okCode}</Text>*/}
-      {/*  </TouchableOpacity>*/}
-      {/*  <TouchableOpacity style={styles.bottomTouchStyle}>*/}
-      {/*    <Text style={styles.touchTextStyle}>{remove}</Text>*/}
-      {/*  </TouchableOpacity>*/}
-      {/*  <TouchableOpacity style={styles.bottomTouchStyle}>*/}
-      {/*    <Text style={styles.touchTextStyle}>{anotherCode}</Text>*/}
-      {/*  </TouchableOpacity>*/}
-      {/*</View>*/}
+      <KeybordAvoidingWrapper>
+        <View style={styles.container}>
+          <Text style={styles.textStyle}>{barCodeText}</Text>
+          <View style={styles.innerView}>
+            <TextInput
+              style={styles.inputView}
+              onChangeText={onChangebarCode}
+              value={barCode}
+              textAlign="center"
+              keyboardType="numeric"
+            />
+            <TouchableOpacity style={styles.touchStyle}>
+              <Text style={[styles.textStyle, { color: COLOR.WHITE }]}>
+                {add}
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.betweenComponents}>
+            <Text style={[styles.textStyle, { marginBottom: 10 }]}>
+              {BarCode}
+            </Text>
+            <Text style={[styles.textStyle, {}]}>843058408543080</Text>
+          </View>
+          <View style={styles.betweenComponents}>
+            <Text style={[styles.textStyle, { marginBottom: 10 }]}>
+              {reciever}
+            </Text>
+            <TextInput
+              style={styles.inputViewStyle}
+              onChangeText={SetReceiver}
+              value={recive}
+              textAlign="center"
+              keyboardType="numeric"
+            />
+          </View>
+
+          <View style={styles.bottomTouchViewStyle}>
+            <TouchableOpacity style={styles.bottomTouchStyle}>
+              <Text style={styles.touchTextStyle}>{okCode}</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.bottomTouchStyle}>
+              <Text style={styles.touchTextStyle}>{anotherCode}</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.bottomTouchStyle}>
+              <Text style={styles.touchTextStyle}>{remove}</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        {/*<View style={styles.bottomTouchViewStyle}>*/}
+        {/*  <TouchableOpacity style={styles.bottomTouchStyle}>*/}
+        {/*    <Text style={styles.touchTextStyle}>{okCode}</Text>*/}
+        {/*  </TouchableOpacity>*/}
+        {/*  <TouchableOpacity style={styles.bottomTouchStyle}>*/}
+        {/*    <Text style={styles.touchTextStyle}>{remove}</Text>*/}
+        {/*  </TouchableOpacity>*/}
+        {/*  <TouchableOpacity style={styles.bottomTouchStyle}>*/}
+        {/*    <Text style={styles.touchTextStyle}>{anotherCode}</Text>*/}
+        {/*  </TouchableOpacity>*/}
+        {/*</View>*/}
+      </KeybordAvoidingWrapper>
     </Screen>
   );
 }
@@ -91,7 +122,7 @@ const styles = StyleSheet.create({
   container: {
     // flex: 1,
     paddingHorizontal: 20,
-    marginTop: 50,
+    marginTop: 60,
   },
   inputView: {
     borderRadius: 4,
@@ -155,5 +186,12 @@ const styles = StyleSheet.create({
   touchTextStyle: {
     fontSize: 16,
     color: COLOR.WHITE,
+  },
+  backButtonStyle: {
+    width: 40,
+    height: 30,
+    position: "absolute",
+    marginTop: 12,
+    left: 12,
   },
 });

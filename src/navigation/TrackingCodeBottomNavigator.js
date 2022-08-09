@@ -5,8 +5,8 @@ import Profile from "../screens/Profile";
 import { Entypo } from "@expo/vector-icons";
 import CustomerInfoScreen from "../screens/CustomerInfoScreen";
 import { COLOR } from "../consts/Global";
-import MainTabScreen from "../screens/TrackingCodeScreens/MainTabScreen";
 import SignatureTabScreen from "../screens/TrackingCodeScreens/SignatureTabScreen";
+import SignatureImagesTabScreen from "../screens/TrackingCodeScreens/SignatureImagesTabScreen";
 import TrackingCodeScreen from "../screens/TrackingCodeScreens/TrackingCodeScreen";
 
 const Tab = createBottomTabNavigator();
@@ -50,7 +50,7 @@ export default function TrackingCodeBottomNavigator() {
         options={{
           tabBarIcon: ({ color, size }) => <Entypo />,
         }}
-        component={MainTabScreen}
+        component={SignatureTabScreen}
       />
 
       <Tab.Screen
@@ -58,7 +58,7 @@ export default function TrackingCodeBottomNavigator() {
         options={{
           tabBarIcon: ({ color, size }) => <Entypo />,
         }}
-        component={SignatureTabScreen}
+        component={SignatureImagesTabScreen}
       />
     </Tab.Navigator>
   );

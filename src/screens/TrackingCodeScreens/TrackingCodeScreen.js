@@ -16,6 +16,7 @@ import Screen from "../Screen";
 import { AntDesign } from "@expo/vector-icons";
 import SelectDropdown from "react-native-select-dropdown";
 import { COLOR, WIDTH } from "../../consts/Global";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const Code = "კოდი";
 const tracking = "თრექინგ #";
@@ -35,16 +36,12 @@ const TrackingCodeScreen = () => {
   const [id, setId] = useState();
   const [relationUnion, setRelationUnion] = useState();
   const [explain, setExplain] = useState();
+  const [CodeOkNo, setCodeOkNo] = useState("OK");
 
   return (
     <Screen>
-      <KeyboardAvoidingView behavior={"height"}>
+      <KeyboardAwareScrollView>
         <ScrollView>
-          {/*<TouchableWithoutFeedback*/}
-          {/*  onPress={() => {*/}
-          {/*    Keyboard.dismiss();*/}
-          {/*  }}*/}
-          {/*>*/}
           <View style={styles.container}>
             <View>
               <Text style={[styles.TextStyle, { marginBottom: 10 }]}>
@@ -55,7 +52,7 @@ const TrackingCodeScreen = () => {
                 onChangeText={setTrackingCode}
                 value={trackingCode}
                 textAlign="center"
-                keyboardType="numeric"
+                // keyboardType="numeric"
               />
             </View>
 
@@ -81,7 +78,9 @@ const TrackingCodeScreen = () => {
                 data={submit}
                 onSelect={(selectedItem, index) => {
                   console.log(selectedItem, index);
+                  setCodeOkNo(selectedItem);
                 }}
+                onChangeText={setCodeOkNo}
                 buttonTextAfterSelection={(selectedItem, index) => {
                   return selectedItem;
                 }}
@@ -129,7 +128,6 @@ const TrackingCodeScreen = () => {
                 value={code}
                 placeholder="სახელი გვარი"
                 textAlign="center"
-                keyboardType="numeric"
               />
             </View>
 
@@ -153,7 +151,6 @@ const TrackingCodeScreen = () => {
                 value={relationUnion}
                 placeholder="_"
                 textAlign="center"
-                keyboardType="numeric"
               />
             </View>
 
@@ -170,13 +167,23 @@ const TrackingCodeScreen = () => {
           </View>
           {/*</TouchableWithoutFeedback>*/}
         </ScrollView>
-      </KeyboardAvoidingView>
+      </KeyboardAwareScrollView>
 
       <View style={styles.bottomTouchViewStyle}>
         <TouchableOpacity style={styles.bottomTouchStyle}>
           <Text style={styles.touchTextStyle}>{save}</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.bottomTouchStyle}>
+        <TouchableOpacity
+          style={styles.bottomTouchStyle}
+          onPress={() => {
+            setTrackingCode(""),
+              setCode(""),
+              setId(""),
+              setRelationUnion(""),
+              setExplain("");
+            // setCodeOkNo(CodeOkNo);
+          }}
+        >
           <Text style={styles.touchTextStyle}>{newOne}</Text>
         </TouchableOpacity>
       </View>
